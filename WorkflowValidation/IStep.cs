@@ -9,7 +9,7 @@ namespace WorkflowValidation
     /// </summary>
     public interface IStep
     {
-        Workflow Workflow { get; }
+        IWorkflow Workflow { get; }
 
         /// <summary>
         /// Executes the step

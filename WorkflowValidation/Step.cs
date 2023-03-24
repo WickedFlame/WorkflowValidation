@@ -6,7 +6,7 @@ namespace WorkflowValidation
 {
     public abstract class Step : IStep
     {
-        public Workflow Workflow { get; } = new Workflow();
+        public IWorkflow Workflow { get; } = new Workflow();
 
         public abstract void Run(WorkflowContext context);
     }

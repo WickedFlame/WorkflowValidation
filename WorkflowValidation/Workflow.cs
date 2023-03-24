@@ -4,20 +4,27 @@ using System.Collections.Generic;
 namespace WorkflowValidation
 {
     //https://github.com/TestStack/TestStack.BDDfy
-    public class Workflow
+    public class Workflow : IWorkflowStep, IWorkflow
     {
         private readonly List<IStep> _steps = new List<IStep>();
 
+        public Workflow() { }
+
+        public Workflow(IWorkflow parent)
+        {
+            _steps.AddRange(parent.Steps);
+        }
+
         public IEnumerable<IStep> Steps => _steps;
 
-        public Workflow Step(IStep step)
+        public IWorkflow SetStep(IStep step)
         {
             _steps.Add(step);
 
             return this;
         }
 
-        public void Start()
+        public void Run()
         {
             var ctx = new WorkflowContext();
             System.Diagnostics.Trace.WriteLine(string.Empty);

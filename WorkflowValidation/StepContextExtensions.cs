@@ -17,7 +17,7 @@ namespace WorkflowValidation
         [AssertionMethod]
         public static StepContext Verify(this StepContext ctx, Func<AssertionContext, bool> ensure)
         {
-            ctx.Context.CurrentStep.Workflow.Step(new AssertionStep(ensure));
+            ctx.Context.CurrentStep.Workflow.SetStep(new AssertionStep(ensure));
 
             return ctx;
         }
