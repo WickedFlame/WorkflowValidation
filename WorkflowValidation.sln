@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowValidation", "WorkflowValidation\WorkflowValidation.csproj", "{C5ECB48A-B821-4CA7-B6F8-FF724DF9681B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowValidation", "WorkflowValidation\WorkflowValidation.csproj", "{C5ECB48A-B821-4CA7-B6F8-FF724DF9681B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CB13B64A-4526-4B11-B7B1-B139886AC2B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowValidation.Test", "Tests\WorkflowValidation.Test\WorkflowValidation.Test.csproj", "{09A9D21F-AB78-4220-8ADF-96DCE8F3DEEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowValidation.Test", "Tests\WorkflowValidation.Test\WorkflowValidation.Test.csproj", "{09A9D21F-AB78-4220-8ADF-96DCE8F3DEEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EFCD3D5-29A8-4D5F-BCD0-ECAFF338804E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{A3476BC8-DA88-4A68-90A3-1F5F3F5CA340}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +27,15 @@ Global
 		{09A9D21F-AB78-4220-8ADF-96DCE8F3DEEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09A9D21F-AB78-4220-8ADF-96DCE8F3DEEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09A9D21F-AB78-4220-8ADF-96DCE8F3DEEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3476BC8-DA88-4A68-90A3-1F5F3F5CA340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3476BC8-DA88-4A68-90A3-1F5F3F5CA340}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{09A9D21F-AB78-4220-8ADF-96DCE8F3DEEC} = {CB13B64A-4526-4B11-B7B1-B139886AC2B1}
+		{A3476BC8-DA88-4A68-90A3-1F5F3F5CA340} = {7EFCD3D5-29A8-4D5F-BCD0-ECAFF338804E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42F119C2-CB96-46BE-B141-C555D2AE404C}
