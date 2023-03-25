@@ -1,12 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WorkflowValidation
 {
     public class AssertionStep : Step, IStep
     {
         private readonly Func<AssertionContext, bool> _step;
+
+        /// <summary>
+        /// Defines a step that will be run
+        /// </summary>
+        public AssertionStep(Func<bool> step) 
+            : this(c => step.Invoke())
+        {
+        }
 
         /// <summary>
         /// Defines a step that will be run

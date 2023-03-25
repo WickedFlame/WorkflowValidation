@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WorkflowValidation
 {
@@ -10,6 +8,14 @@ namespace WorkflowValidation
     public class ActionStep : Step, IStep
     {
         private readonly Action<StepContext> _step;
+
+        /// <summary>
+        /// Defines a step that will be run
+        /// </summary>
+        public ActionStep(Action step) 
+            : this(a => step.Invoke())
+        {
+        }
 
         /// <summary>
         /// Defines a step that will be run
