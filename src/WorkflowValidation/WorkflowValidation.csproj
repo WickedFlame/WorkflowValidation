@@ -9,7 +9,7 @@
       <RepositoryUrl>https://github.com/WickedFlame/WorkflowValidation</RepositoryUrl>
       <SignAssembly>true</SignAssembly>
       <DelaySign>false</DelaySign>
-      <AssemblyOriginatorKeyFile>WorkflowValidation.snk</AssemblyOriginatorKeyFile>
+      <AssemblyOriginatorKeyFile>..\WorkflowValidation.snk</AssemblyOriginatorKeyFile>
       <Company>WickedFlame</Company>
       <Authors>Christian Walpen</Authors>
       <Copyright>@ WickedFlame 2023</Copyright>
