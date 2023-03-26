@@ -9,12 +9,23 @@ namespace WorkflowValidation
     {
         public static IWorkflowStep Then(this IWorkflow workflow, Action step)
         {
-            return new Workflow(workflow.SetStep(new ActionStep(step, null)));
+            workflow.SetStep(new Step(step));
+            return new Workflow(workflow);
+        }
+
+        public static IWorkflowStep Then(this IWorkflow workflow,string name, Action step)
+        {
+            workflow.SetStep(new Step(step)
+                .SetName(name)
+            );
+
+            return new Workflow(workflow);
         }
 
         public static IWorkflowStep Then(this IWorkflow workflow, Action<WorkflowContext> step)
         {
-            return new Workflow(workflow.SetStep(new ActionStep(step, null)));
+            workflow.SetStep(new Step(step));
+            return new Workflow(workflow);
         }
 
         //public static IWorkflow Step<T>(this IWorkflow workflow, Func<StepContext, T> step)
@@ -24,32 +35,39 @@ namespace WorkflowValidation
 
         public static IWorkflowStep Then(this IWorkflow workflow, string message, Action<WorkflowContext> step)
         {
-            Action<WorkflowContext> exp = c =>
-            {
-                //c.Log(message);
-                step(c);
-            };
+            workflow.SetStep(new Step(step)
+                .SetName(message)
+            );
 
-            return new Workflow(workflow.SetStep(new ActionStep(exp, message)));
+            return new Workflow(workflow);
         }
 
-        public static IWorkflowStep Verify(this IWorkflowStep workflow, Func<AssertionContext, bool> ensure)
-        {
-            return new Workflow(workflow.SetStep(new AssertionStep(ensure)));
-        }
+        //public static IWorkflowStep Verify(this IWorkflowStep workflow, Func<AssertionContext, bool> ensure)
+        //{
+        //    workflow.SetStep(new AssertionStep(ensure));
+        //    return new Workflow(workflow);
+        //}
 
         public static IWorkflowStep Verify(this IWorkflowStep workflow, Action<AssertionContext> ensure)
         {
-            return new Workflow(workflow.SetStep(new AssertionStep2(ensure)));
+            workflow.SetStep(new AssertionStep(c =>
+            {
+                ensure(c);
+                return true;
+            }));
+
+            return new Workflow(workflow);
         }
 
         public static IWorkflow Wait(this IWorkflow workflow, int milliseconds)
         {
-            return workflow.SetStep(new ActionStep(c =>
-            {
-                //c.Log($"Wait for {milliseconds} ms");
-                Thread.Sleep(milliseconds);
-            }, $"Wait for {milliseconds} ms"));
+            workflow.SetStep(new Step(c =>
+                {
+                    Thread.Sleep(milliseconds);
+                })
+                .SetName($"Wait for {milliseconds} ms"));
+
+            return workflow;
         }
     }
 }

@@ -17,6 +17,18 @@ namespace WorkflowValidation.Test
         }
 
         [Test]
+        public void WorkflowBuilder_Basic_Step_Type()
+        {
+            WorkflowBuilder.StartWith("Step", () => { }).Steps.Single().Should().BeOfType<Step>();
+        }
+
+        [Test]
+        public void WorkflowBuilder_Basic_Step_Title()
+        {
+            WorkflowBuilder.StartWith("Step", () => { }).Steps.Single().Name.Should().Be("Step");
+        }
+
+        [Test]
         public void WorkflowBuilder_Then_Context_Type()
         {
             WorkflowBuilder

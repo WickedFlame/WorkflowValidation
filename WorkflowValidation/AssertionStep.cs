@@ -2,7 +2,7 @@
 
 namespace WorkflowValidation
 {
-    public class AssertionStep : Step, IStep
+    public class AssertionStep : StepBase, IStep
     {
         private readonly Func<AssertionContext, bool> _step;
 
@@ -10,7 +10,7 @@ namespace WorkflowValidation
         /// Defines a step that will be run
         /// </summary>
         public AssertionStep(Func<bool> step) 
-            : this(c => c.Assert(step, null))
+            : this(c => c.Assert(step))
         {
         }
 
@@ -29,7 +29,7 @@ namespace WorkflowValidation
         /// <returns>The resulting collection of the executions</returns>
         public override void Run(WorkflowContext context)
         {
-            _step(new AssertionContext(context));
+            _step(new AssertionContext(context) { Name = Name });
         }
     }
 }

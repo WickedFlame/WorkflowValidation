@@ -11,15 +11,23 @@ namespace WorkflowValidation
             _ctx = ctx;
         }
 
+        public string Name { get; set; }
+
+        public bool Assert(Func<bool> assert)
+            => Assert(assert, null);
+
         public bool Assert(Func<bool> assert, string message)
         {
+            var msg = message ?? Name;
+
             if (!assert())
             {
-                _ctx.Log($"Verify: {message} [Failed]");
-                throw new WorkflowException($"Expected: {message}");
+
+                _ctx.Log($"Verify: {msg} [Failed]");
+                throw new WorkflowException($"Expected: {msg}");
             }
 
-            _ctx.Log($"Verify: {message} [Passed]");
+            _ctx.Log($"Verify: {msg} [Passed]");
 
             return true;
         }

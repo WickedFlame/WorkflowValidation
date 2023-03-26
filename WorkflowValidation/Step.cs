@@ -1,20 +1,43 @@
-﻿
+﻿using System;
+
 namespace WorkflowValidation
 {
-    public abstract class Step : IStep
+    /// <summary>
+    /// Defines a step receiving a ExecutionContext that will be run
+    /// </summary>
+    public class Step : StepBase, IStep
     {
-        public IWorkflow Workflow { get; } = new Workflow();
+        private readonly Action<WorkflowContext> _step;
 
         /// <summary>
-        /// Gets the name of the step
+        /// Defines a step that will be run
         /// </summary>
-        public string Name { get; set; }
+        public Step(Action step) 
+            : this(a => step.Invoke())
+        {
+        }
+
+        /// <summary>
+        /// Defines a step that will be run
+        /// </summary>
+        public Step(Action<WorkflowContext> step)
+        {
+            _step = step;
+        }
 
         /// <summary>
         /// Executes the step
         /// </summary>
         /// <param name="context">The current execution context</param>
         /// <returns>The resulting collection of the executions</returns>
-        public abstract void Run(WorkflowContext context);
+        public override void Run(WorkflowContext context)
+        {
+            if (!string.IsNullOrEmpty(Name))
+            {
+                context.Log($"Step: {Name}");
+            }
+
+            _step(context);
+        }
     }
 }

@@ -31,7 +31,7 @@ class Build : NukeBuild
     [Solution] readonly Solution Solution;
 
     [Parameter("Version to be injected in the Build")]
-    public string Version { get; set; } = $"2.2.2";
+    public string Version { get; set; } = $"1.0.0";
 
     [Parameter("The Buildnumber provided by the CI")]
     public int BuildNo = 1;
@@ -42,6 +42,8 @@ class Build : NukeBuild
     AbsolutePath TestsDirectory => RootDirectory / "Tests";
 
     AbsolutePath ArtifactsDirectory => RootDirectory / "Artifacts";
+
+    AbsolutePath DeployPath => (AbsolutePath)"C:" / "Projects" / "NuGet Store";
 
     Target Clean => _ => _
         .Before(Restore)
