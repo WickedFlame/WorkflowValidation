@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WorkflowValidation
 {
-    public class AssertionContext : WorkflowContext
+    public class AssertionContext
     {
         private readonly WorkflowContext _ctx;
 
@@ -13,21 +11,17 @@ namespace WorkflowValidation
             _ctx = ctx;
         }
 
-        public void Assert(Func<bool> assert, string message)
+        public bool Assert(Func<bool> assert, string message)
         {
             if (!assert())
             {
-                Log($"{message} [Failed]");
+                _ctx.Log($"Verify: {message} [Failed]");
                 throw new WorkflowException($"Expected: {message}");
             }
 
-            Log($"{message} [Passed]");
-        }
+            _ctx.Log($"Verify: {message} [Passed]");
 
-        public override void Log(string message)
-        {
-            //System.Diagnostics.Trace.WriteLine($"Verify: {message}");
-            Console.Out.WriteLine($"Verify: {message}");
+            return true;
         }
     }
 }

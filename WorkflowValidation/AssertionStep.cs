@@ -10,7 +10,7 @@ namespace WorkflowValidation
         /// Defines a step that will be run
         /// </summary>
         public AssertionStep(Func<bool> step) 
-            : this(c => step.Invoke())
+            : this(c => c.Assert(step, null))
         {
         }
 
@@ -29,10 +29,7 @@ namespace WorkflowValidation
         /// <returns>The resulting collection of the executions</returns>
         public override void Run(WorkflowContext context)
         {
-            if (!_step(new AssertionContext(context)))
-            {
-                throw new WorkflowException("Step is not true");
-            }
+            _step(new AssertionContext(context));
         }
     }
 }
