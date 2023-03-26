@@ -7,15 +7,15 @@ namespace WorkflowValidation
     public static class StepContextExtensions
     {
         [AssertionMethod]
-        public static StepContext Verify(this StepContext ctx, Func<bool> ensure)
+        public static WorkflowContext Verify(this WorkflowContext ctx, Func<bool> ensure)
         {
-            ctx.Context.CurrentStep.Workflow.SetStep(new AssertionStep(ensure));
+            ctx.CurrentStep.Workflow.SetStep(new AssertionStep(ensure));
 
             return ctx;
         }
 
         [AssertionMethod]
-        public static StepContext Verify(this StepContext ctx, Action<AssertionContext> ensure)
+        public static WorkflowContext Verify(this WorkflowContext ctx, Action<AssertionContext> ensure)
         {
             //ctx.Context.CurrentStep.Workflow.Verify(ensure);
 
@@ -24,9 +24,9 @@ namespace WorkflowValidation
         }
 
         [AssertionMethod]
-        public static StepContext Verify(this StepContext ctx, Func<AssertionContext, bool> ensure)
+        public static WorkflowContext Verify(this WorkflowContext ctx, Func<AssertionContext, bool> ensure)
         {
-            ctx.Context.CurrentStep.Workflow.SetStep(new AssertionStep(ensure));
+            ctx.CurrentStep.Workflow.SetStep(new AssertionStep(ensure));
 
 
 

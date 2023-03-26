@@ -9,12 +9,12 @@ namespace WorkflowValidation
     {
         public static IWorkflowStep Then(this IWorkflow workflow, Action step)
         {
-            return new Workflow(workflow.SetStep(new ActionStep(step)));
+            return new Workflow(workflow.SetStep(new ActionStep(step, null)));
         }
 
-        public static IWorkflowStep Then(this IWorkflow workflow, Action<StepContext> step)
+        public static IWorkflowStep Then(this IWorkflow workflow, Action<WorkflowContext> step)
         {
-            return new Workflow(workflow.SetStep(new ActionStep(step)));
+            return new Workflow(workflow.SetStep(new ActionStep(step, null)));
         }
 
         //public static IWorkflow Step<T>(this IWorkflow workflow, Func<StepContext, T> step)
@@ -22,15 +22,15 @@ namespace WorkflowValidation
         //    return workflow.SetStep(new FuncStep<T>(step));
         //}
 
-        public static IWorkflowStep Then(this IWorkflow workflow, string message, Action<StepContext> step)
+        public static IWorkflowStep Then(this IWorkflow workflow, string message, Action<WorkflowContext> step)
         {
-            Action<StepContext> exp = c =>
+            Action<WorkflowContext> exp = c =>
             {
-                c.Log(message);
+                //c.Log(message);
                 step(c);
             };
 
-            return new Workflow(workflow.SetStep(new ActionStep(exp)));
+            return new Workflow(workflow.SetStep(new ActionStep(exp, message)));
         }
 
         public static IWorkflowStep Verify(this IWorkflowStep workflow, Func<AssertionContext, bool> ensure)
@@ -47,9 +47,9 @@ namespace WorkflowValidation
         {
             return workflow.SetStep(new ActionStep(c =>
             {
-                c.Log($"Wait for {milliseconds} ms");
+                //c.Log($"Wait for {milliseconds} ms");
                 Thread.Sleep(milliseconds);
-            }));
+            }, $"Wait for {milliseconds} ms"));
         }
     }
 }

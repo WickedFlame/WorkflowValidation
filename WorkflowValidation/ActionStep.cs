@@ -7,22 +7,23 @@ namespace WorkflowValidation
     /// </summary>
     public class ActionStep : Step, IStep
     {
-        private readonly Action<StepContext> _step;
+        private readonly Action<WorkflowContext> _step;
 
         /// <summary>
         /// Defines a step that will be run
         /// </summary>
-        public ActionStep(Action step) 
-            : this(a => step.Invoke())
+        public ActionStep(Action step, string name) 
+            : this(a => step.Invoke(), name)
         {
         }
 
         /// <summary>
         /// Defines a step that will be run
         /// </summary>
-        public ActionStep(Action<StepContext> step)
+        public ActionStep(Action<WorkflowContext> step, string name)
         {
             _step = step;
+            Name = name;
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace WorkflowValidation
         /// <returns>The resulting collection of the executions</returns>
         public override void Run(WorkflowContext context)
         {
-            _step(new StepContext(context));
+            _step(context);
         }
     }
 }

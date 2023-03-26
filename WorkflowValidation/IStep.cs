@@ -12,6 +12,11 @@ namespace WorkflowValidation
         IWorkflow Workflow { get; }
 
         /// <summary>
+        /// Gets the name of the step
+        /// </summary>
+        string Name { get; set; }
+
+        /// <summary>
         /// Executes the step
         /// </summary>
         /// <param name="context">The current execution context</param>

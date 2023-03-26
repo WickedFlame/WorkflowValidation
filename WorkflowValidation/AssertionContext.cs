@@ -4,11 +4,11 @@ using System.Text;
 
 namespace WorkflowValidation
 {
-    public class AssertionContext : StepContext
+    public class AssertionContext : WorkflowContext
     {
         private readonly WorkflowContext _ctx;
 
-        public AssertionContext(WorkflowContext ctx) : base(ctx)
+        public AssertionContext(WorkflowContext ctx)
         {
             _ctx = ctx;
         }

@@ -30,13 +30,18 @@ namespace WorkflowValidation
             System.Diagnostics.Trace.WriteLine(string.Empty);
             System.Diagnostics.Trace.WriteLine("Starting new Test-Workflow");
 
+            //ctx.Workflow = this;
+
             foreach (var step in _steps)
             {
                 ctx.CurrentStep = step;
+
+                ctx.Log($"Execute: {step.Name}");
                 step.Run(ctx);
 
                 foreach (var child in step.Workflow.Steps)
                 {
+                    ctx.Log($"Execute: {child.Name}");
                     child.Run(ctx);
                 }
             }

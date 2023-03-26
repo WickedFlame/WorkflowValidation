@@ -6,12 +6,12 @@ namespace WorkflowValidation
 {
     public class FuncStep<T> : Step, IStep
     {
-        private readonly Func<StepContext, T> _step;
+        private readonly Func<WorkflowContext, T> _step;
 
         /// <summary>
         /// Defines a step that will be run
         /// </summary>
-        public FuncStep(Func<StepContext, T> step)
+        public FuncStep(Func<WorkflowContext, T> step)
         {
             _step = step;
         }
@@ -23,7 +23,7 @@ namespace WorkflowValidation
         /// <returns>The resulting collection of the executions</returns>
         public override void Run(WorkflowContext context)
         {
-            _step(new StepContext(context));
+            _step(context);
         }
     }
 }

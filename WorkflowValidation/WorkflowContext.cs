@@ -12,7 +12,7 @@ namespace WorkflowValidation
         public virtual void Log(string message)
         {
             //System.Diagnostics.Trace.WriteLine($"Step: {message}");
-            Console.Out.WriteLine($"Step: {message}");
+            Console.Out.WriteLine(message);
         }
     }
 }
