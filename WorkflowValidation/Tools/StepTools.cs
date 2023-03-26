@@ -1,11 +1,17 @@
 ﻿using System;
-using System.Xml.Linq;
 
 namespace WorkflowValidation.Tools
 {
+    /// <summary>
+    /// Tools for <see cref="IStep"/>
+    /// </summary>
     public static class StepTools
     {
-        public static void Step(Action<StepBuilder> assert)
+        /// <summary>
+        /// Setup the <see cref="IStep"/>
+        /// </summary>
+        /// <param name="assert"></param>
+        public static void SetStep(Action<StepBuilder> assert)
         {
             var builder = new StepBuilder();
             assert(builder);

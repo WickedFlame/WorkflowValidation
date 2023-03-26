@@ -3,6 +3,7 @@ using NUnit.Framework.Internal.Commands;
 using System.Xml.Linq;
 using static WorkflowValidation.Tools.VerificationTools;
 using static WorkflowValidation.Tools.StepTools;
+using static WorkflowValidation.Tools.WorkflowTools;
 
 namespace WorkflowValidation.Test
 {
@@ -18,7 +19,7 @@ namespace WorkflowValidation.Test
         {
             WorkflowBuilder.StartWith(() => { })
                 .Then(() => { })
-                .Then( () => { })
+                .Then(() => { })
                 .Run();
         }
 
@@ -205,11 +206,11 @@ namespace WorkflowValidation.Test
 
 
         [Test]
-        public void WorkflowValidation_Api_SubStep_Extension_FullSetup()
+        public void WorkflowValidation_Api_StepTools_FullSetup()
         {
             WorkflowBuilder.StartWith(() =>
                 {
-                    Step(b => b
+                    SetStep(b => b
                         .SetName("Start Step")
                     );
 
@@ -221,6 +222,51 @@ namespace WorkflowValidation.Test
                     );
                 })
                 .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_WorkflowTools_FullSetup()
+        {
+            StartWith(() =>
+                {
+                    SetStep(b => b
+                        .SetName("Start Step")
+                    );
+
+                    System.Diagnostics.Debug.WriteLine("This is a step");
+
+                    Verify(b => b
+                        .SetName("Test")
+                        .Assert(() => true)
+                    );
+                })
+                .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_WorkflowTools_WithContext_FullSetup()
+        {
+            WithContext<WorkflowTestContext>(ctx =>
+                    StartWith(() =>
+                        {
+                            SetStep(b => b
+                                .SetName("Start Step")
+                            );
+
+                            System.Diagnostics.Debug.WriteLine("This is a step");
+
+                            Verify(b => b
+                                .SetName("Test")
+                                .Assert(() => true)
+                            );
+                        })
+                        .Then(() => { })
+                )
+                .Run();
+        }
+
+        public class WorkflowTestContext
+        {
         }
     }
 }
