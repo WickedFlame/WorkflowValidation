@@ -34,7 +34,7 @@ namespace WorkflowValidation
         {
             if (!string.IsNullOrEmpty(Name))
             {
-                context.Log($"Step: {Name}");
+                context.Log($"-> Step: {Name}");
             }
 
             _step(context);

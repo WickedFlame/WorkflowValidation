@@ -3,31 +3,32 @@ using System.Collections.Generic;
 
 namespace WorkflowValidation
 {
-    //https://github.com/TestStack/TestStack.BDDfy
     public class Workflow : IWorkflowStep, IWorkflow
     {
         private readonly List<IStep> _steps = new List<IStep>();
-        private readonly WorkflowOptions _options;
 
         public Workflow()
         {
-            _options = new WorkflowOptions();
+            Options = new WorkflowOptions();
         }
 
         public Workflow(WorkflowOptions options)
         {
-            _options = options;
+            Options = options;
         }
 
         public Workflow(IWorkflow parent)
         {
             _steps.AddRange(parent.Steps);
-            _options = parent.Options;
+            Options = parent.Options;
+            Context = parent.Context;
         }
 
         public IEnumerable<IStep> Steps => _steps;
 
-        public WorkflowOptions Options => _options;
+        public WorkflowOptions Options { get; }
+
+        public WorkflowContext Context { get; set; }
 
         public IStep SetStep(IStep step)
         {
@@ -38,7 +39,7 @@ namespace WorkflowValidation
 
         public void Run()
         {
-            var ctx = new WorkflowContext();
+            var ctx = Context ?? new WorkflowContext();
             System.Diagnostics.Trace.WriteLine(string.Empty);
             System.Diagnostics.Trace.WriteLine("Starting new Test-Workflow");
             

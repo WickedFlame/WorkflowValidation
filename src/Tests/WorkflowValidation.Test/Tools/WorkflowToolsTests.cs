@@ -7,13 +7,13 @@ namespace WorkflowValidation.Test.Tools
         [Test]
         public void WorkflowTools_WithContext()
         {
-            WithContext<WorkflowToolsTestContext>(ctx => new Workflow()).Should().BeOfType<Workflow>();
+            Workflow<WorkflowToolsTestContext>(ctx => new Workflow()).Should().BeOfType<Workflow>();
         }
 
         [Test]
         public void WorkflowTools_WithContext_CheckContext()
         {
-            WithContext<WorkflowToolsTestContext>(ctx =>
+            Workflow<WorkflowToolsTestContext>(ctx =>
             {
                 ctx.Should().BeOfType<WorkflowToolsTestContext>();
                 return new Workflow();

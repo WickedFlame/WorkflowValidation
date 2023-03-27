@@ -35,9 +35,18 @@ namespace WorkflowValidation.Test
         [Test]
         public void WorkflowValidation_Api_Message_Context()
         {
-            WorkflowBuilder.StartWith(() => { })
-                .Then("Message", c => { })
-                .Then(() => { })
+            WorkflowBuilder.StartWith("Start", c => { })
+                .Then("Then 1", c => { })
+                .Then("Then 2", c => { })
+                .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_Message_NoContext()
+        {
+            WorkflowBuilder.StartWith("Start", () => { })
+                .Then("Then 1", () => { })
+                .Then("Then 2", () => { })
                 .Run();
         }
 
@@ -191,9 +200,13 @@ namespace WorkflowValidation.Test
         {
             WorkflowBuilder.StartWith("lorem ipsum", c =>
                 {
+                    c.SetStep(s => s
+                        .SetName("lorem ipsum sub config")
+                    );
                     c.Verify(v => v
                         .SetName("Validation step")
-                        .Assert(() => true));
+                        .Assert(() => true)
+                    );
 
                 })
                 .Then("lorem ipsum then", () =>
@@ -203,6 +216,31 @@ namespace WorkflowValidation.Test
                 .Run();
         }
 
+        [Test]
+        public void WorkflowValidation_Api_SubStep_Context_Fluent_FullSetup()
+        {
+            WorkflowBuilder.StartWith(c =>
+                    c.SetStep(s => s
+                            .SetName("lorem ipsum")
+                            .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
+                        )
+                        .Verify(v => v
+                            .SetName("Validation step")
+                            .Assert(() => true)
+                        )
+                )
+                .Then(c =>
+                    c.SetStep(s => s
+                            .SetName("lorem ipsum then")
+                            .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
+                        )
+                        .Verify(v => v
+                            .SetName("Validation step")
+                            .Assert(() => true)
+                        )
+                )
+                .Run();
+        }
 
 
         [Test]
@@ -212,9 +250,10 @@ namespace WorkflowValidation.Test
                 {
                     SetStep(b => b
                         .SetName("Start Step")
+                        .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
                     );
 
-                    System.Diagnostics.Debug.WriteLine("This is a step");
+                    System.Diagnostics.Debug.WriteLine("Some info");
 
                     Verify(b => b
                         .SetName("Test")
@@ -231,9 +270,8 @@ namespace WorkflowValidation.Test
                 {
                     SetStep(b => b
                         .SetName("Start Step")
+                        .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
                     );
-
-                    System.Diagnostics.Debug.WriteLine("This is a step");
 
                     Verify(b => b
                         .SetName("Test")
@@ -246,14 +284,13 @@ namespace WorkflowValidation.Test
         [Test]
         public void WorkflowValidation_Api_WorkflowTools_WithContext_FullSetup()
         {
-            WithContext<WorkflowTestContext>(ctx =>
+            Workflow<WorkflowTestContext>(ctx =>
                     StartWith(() =>
                         {
                             SetStep(b => b
                                 .SetName("Start Step")
+                                .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
                             );
-
-                            System.Diagnostics.Debug.WriteLine("This is a step");
 
                             Verify(b => b
                                 .SetName("Test")
@@ -261,6 +298,26 @@ namespace WorkflowValidation.Test
                             );
                         })
                         .Then(() => { })
+                )
+                .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_WorkflowTools_Simple_FullSetup()
+        {
+            Workflow<WorkflowTestContext>(ctx =>
+                    StartWith("Start", () => { })
+                        .Then("Then", () => { })
+                )
+                .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_WorkflowTools_Simple_Context_FullSetup()
+        {
+            Workflow<WorkflowTestContext>(ctx =>
+                    StartWith("Start", c => { })
+                        .Then("Then", c => { })
                 )
                 .Run();
         }

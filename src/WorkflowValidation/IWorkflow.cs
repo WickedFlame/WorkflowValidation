@@ -10,6 +10,8 @@ namespace WorkflowValidation
 
         WorkflowOptions Options { get; }
 
+        WorkflowContext Context { get; set; }
+
         IStep SetStep(IStep step);
 
         void Run();

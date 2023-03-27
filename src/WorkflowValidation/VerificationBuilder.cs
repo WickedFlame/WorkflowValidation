@@ -12,6 +12,12 @@ namespace WorkflowValidation
         private string _name;
         private IStep _step;
 
+        public VerificationBuilder SetContext(WorkflowContext context)
+        {
+            _workflow.Context = context;
+            return this;
+        }
+
         public VerificationBuilder SetName(string name)
         {
             _name = name;

@@ -23,11 +23,11 @@ namespace WorkflowValidation
             if (!assert())
             {
 
-                _ctx.Log($"Verify: {msg} [Failed]");
+                _ctx.Log($"-> Verify: {msg} [Failed]");
                 throw new WorkflowException($"Expected: {msg}");
             }
 
-            _ctx.Log($"Verify: {msg} [Passed]");
+            _ctx.Log($"-> Verify: {msg} [Passed]");
 
             return true;
         }

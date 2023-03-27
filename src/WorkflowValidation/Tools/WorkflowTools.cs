@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WorkflowValidation.Tools
 {
@@ -11,7 +9,22 @@ namespace WorkflowValidation.Tools
             return WorkflowBuilder.StartWith(step);
         }
 
-        public static IWorkflow WithContext<T>(Func<T, IWorkflow> workflow) where T : class, new()
+        public static IWorkflow StartWith(string description, Action step)
+        {
+            return WorkflowBuilder.StartWith(description, step);
+        }
+
+        public static IWorkflow StartWith(Action<WorkflowContext> step)
+        {
+            return WorkflowBuilder.StartWith(step);
+        }
+
+        public static IWorkflow StartWith(string description, Action<WorkflowContext> step)
+        {
+            return WorkflowBuilder.StartWith(description, step);
+        }
+
+        public static IWorkflow Workflow<T>(Func<T, IWorkflow> workflow) where T : class, new()
         {
             var context = new T();
             return workflow(context);

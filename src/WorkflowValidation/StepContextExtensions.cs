@@ -29,7 +29,9 @@ namespace WorkflowValidation
         [AssertionMethod]
         public static WorkflowContext Verify(this WorkflowContext ctx, Action<VerificationBuilder> assert)
         {
-            var builder = new VerificationBuilder();
+            var builder = new VerificationBuilder()
+                .SetContext(ctx);
+
             assert(builder);
 
             builder.Build()
@@ -38,6 +40,23 @@ namespace WorkflowValidation
             return ctx;
         }
 
+        /// <summary>
+        /// Setup the <see cref="IStep"/>
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="assert"></param>
+        public static WorkflowContext SetStep(this WorkflowContext ctx, Action<StepBuilder> assert)
+        {
+            var builder = new StepBuilder()
+                .SetContext(ctx);
+
+            assert(builder);
+
+            builder.Build()
+                .Run();
+
+            return ctx;
+        }
 
         //[AssertionMethod]
         //public static WorkflowContext Verify(this WorkflowContext ctx, Action<AssertionContext> ensure)
