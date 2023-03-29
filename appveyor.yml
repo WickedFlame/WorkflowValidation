@@ -34,7 +34,7 @@ for:
     branches:
       # whitelist
       only:
-        - master
+        - main
 
     # Do not build on tags (GitHub only)
     skip_tags: true
