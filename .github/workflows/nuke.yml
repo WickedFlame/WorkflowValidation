@@ -47,10 +47,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      - name: Setup .NET Core SDK '6.0.x'
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: '6.0.x'
       #- name: Install dependencies
       #  run: dotnet restore
       #- name: Build
@@ -61,8 +61,8 @@ jobs:
       - name: Install nuke tool
         if: steps.cache-nuke-build.outputs.cache-hit != 'true'
         run: |
-          dotnet tool update Nuke.GlobalTool --tool-path .\
+          dotnet tool update Nuke.GlobalTool --tool-path .\.nuke\tool
       - name: Build and analyze
         run: |
-          nuke sonar -SonarToken ${{ secrets.SONAR_TOKEN }} -SonarServer https://sonarcloud.io
+          .\.nuke\tool\nuke sonar -SonarToken ${{ secrets.SONAR_TOKEN }} -SonarServer https://sonarcloud.io
           
