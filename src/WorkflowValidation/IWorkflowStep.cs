@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace WorkflowValidation
 {
+    /// <summary>
+    /// Extended workflow
+    /// </summary>
     public interface IWorkflowStep : IWorkflow
     {
         

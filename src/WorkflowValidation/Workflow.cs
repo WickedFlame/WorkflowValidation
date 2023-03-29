@@ -52,7 +52,7 @@ namespace WorkflowValidation
         /// <summary>
         /// Run all steps in the workflow
         /// </summary>
-        public void Run()
+        public IWorkflow Run()
         {
             var ctx = Context ?? new WorkflowContext();
             foreach (var step in _steps)
@@ -67,6 +67,8 @@ namespace WorkflowValidation
                     child.Run(ctx);
                 }
             }
+
+            return this;
         }
     }
 }

@@ -11,12 +11,12 @@ namespace WorkflowValidation.Tools
         /// Setup the <see cref="IStep"/>
         /// </summary>
         /// <param name="assert"></param>
-        public static void SetStep(Action<StepBuilder> assert)
+        public static IWorkflow SetStep(Action<StepBuilder> assert)
         {
             var builder = new StepBuilder();
             assert(builder);
 
-            builder.Build()
+            return builder.Build()
                 .Run();
         }
     }

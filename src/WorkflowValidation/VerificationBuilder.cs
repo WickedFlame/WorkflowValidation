@@ -36,7 +36,7 @@ namespace WorkflowValidation
         }
 
         /// <summary>
-        /// Assert the result of a result in the workflow.
+        /// Assert the result of a step in the workflow.
         /// Creates a <see cref="AssertionStep"/>.
         /// Throws <see cref="WorkflowException"/> if the assertion fails.
         /// </summary>
