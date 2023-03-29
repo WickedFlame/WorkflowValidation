@@ -34,7 +34,7 @@ for:
     branches:
       # whitelist
       only:
-        - master
+        - main
 
     # Do not build on tags (GitHub only)
     skip_tags: true
@@ -43,7 +43,7 @@ for:
       - dotnet tool install Nuke.GlobalTool --global --version 6.3.0 --no-cache
 
     before_build:
-      - dotnet restore
+      - dotnet restore ./build/_build.csproj
 
     build_script:
       - nuke release --isrc false --version "%base_version%" --buildno "%APPVEYOR_BUILD_NUMBER%"
