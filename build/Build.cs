@@ -7,13 +7,16 @@ using Nuke.Common.Execution;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.SonarScanner;
 using Nuke.Common.Utilities.Collections;
 using Octokit;
 using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.SonarScanner.SonarScannerTasks;
 
 class Build : NukeBuild
 {
@@ -38,6 +41,12 @@ class Build : NukeBuild
 
     [Parameter("Is RC Version")]
     public bool IsRc = false;
+
+    [Parameter("URL of the SonarQube Server")]
+    public string SonarServer = "";
+
+    [Parameter("Login Token of the SonarQube Server")]
+    public string SonarToken = "";
 
     AbsolutePath TestsDirectory => RootDirectory / "Tests";
 
@@ -118,6 +127,41 @@ class Build : NukeBuild
             {
                 CopyFile(file, DeployPath / Path.GetFileName(file), FileExistsPolicy.Overwrite);
             }
+        });
+
+    Target Sonar => _ => _
+        .DependsOn(Restore)
+        .Executes(() =>
+        {
+            Serilog.Log.Write(Serilog.Events.LogEventLevel.Information, "start sonar");
+
+            SonarScannerBegin(s => s
+                .SetProjectKey("WickedFlame_WorkflowValidation")
+                .SetName("WorkflowValidation")
+                .SetFramework("net5.0")
+                .SetServer(SonarServer)
+                .SetLogin(SonarToken)
+                .SetOpenCoverPaths("src/Tests/**/coverage.opencover.xml"));
+
+            DotNetBuild(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration.Debug)
+                .EnableNoRestore());
+
+            DotNetTest(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration.Debug)
+                .SetNoBuild(true)
+                .EnableNoRestore()
+                .EnableCollectCoverage()
+                .SetFramework("net6.0")
+                .SetCoverletOutputFormat(CoverletOutputFormat.opencover));
+
+            Serilog.Log.Write(Serilog.Events.LogEventLevel.Information, "end sonar");
+
+            SonarScannerEnd(s => s
+                .SetFramework("net5.0")
+                .SetLogin(SonarToken));
         });
 
     string PackageVersion
