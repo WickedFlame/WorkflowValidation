@@ -10,4 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
  
 ### Fixed
+
+## v1.0.0
+### Added
+ Initial release
+
  
