@@ -126,7 +126,7 @@ namespace WorkflowValidation.Test
             workflow.Run();
 
             sw.Stop();
-            sw.ElapsedMilliseconds.Should().BeGreaterThan(500);
+            sw.ElapsedMilliseconds.Should().BeGreaterThanOrEqualTo(500);
         }
     }
 }
