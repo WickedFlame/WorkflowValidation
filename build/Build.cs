@@ -138,7 +138,7 @@ class Build : NukeBuild
             SonarScannerBegin(s => s
                 .SetProjectKey("WickedFlame_WorkflowValidation")
                 .SetName("WorkflowValidation")
-                .SetOrganization("WickedFlame")
+                .SetOrganization("wickedflame")
                 .SetFramework("net5.0")
                 .SetServer(SonarServer)
                 .SetLogin(SonarToken)
