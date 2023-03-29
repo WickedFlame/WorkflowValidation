@@ -2,9 +2,12 @@
 
 namespace WorkflowValidation
 {
+    /// <summary>
+    /// Represents a <see cref="IStep"/> to assert workflow steps
+    /// </summary>
     public class AssertionStep : StepBase, IStep
     {
-        private readonly Func<AssertionContext, bool> _step;
+        private readonly Func<AssertionProvider, bool> _step;
 
         /// <summary>
         /// Defines a step that will be run
@@ -17,7 +20,7 @@ namespace WorkflowValidation
         /// <summary>
         /// Defines a step that will be run
         /// </summary>
-        public AssertionStep(Func<AssertionContext, bool> step)
+        public AssertionStep(Func<AssertionProvider, bool> step)
         {
             _step = step;
         }
@@ -29,7 +32,7 @@ namespace WorkflowValidation
         /// <returns>The resulting collection of the executions</returns>
         public override void Run(WorkflowContext context)
         {
-            _step(new AssertionContext(context) { Name = Name });
+            _step(new AssertionProvider(context) { Name = Name });
         }
     }
 }

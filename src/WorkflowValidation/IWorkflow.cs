@@ -8,8 +8,6 @@ namespace WorkflowValidation
     {
         IEnumerable<IStep> Steps{ get; }
 
-        WorkflowOptions Options { get; }
-
         WorkflowContext Context { get; set; }
 
         IStep SetStep(IStep step);

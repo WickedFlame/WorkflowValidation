@@ -1,35 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace WorkflowValidation
 {
+    /// <summary>
+    /// A workflow containing 1-n steps to run
+    /// </summary>
     public class Workflow : IWorkflowStep, IWorkflow
     {
         private readonly List<IStep> _steps = new List<IStep>();
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Workflow()
         {
-            Options = new WorkflowOptions();
         }
-
-        public Workflow(WorkflowOptions options)
-        {
-            Options = options;
-        }
-
+        
+        /// <summary>
+        /// Creates a new workflow based on the Steps and context of the parent workflow
+        /// </summary>
+        /// <param name="parent"></param>
         public Workflow(IWorkflow parent)
         {
-            _steps.AddRange(parent.Steps);
-            Options = parent.Options;
+            _steps = parent.Steps as List<IStep> ?? parent.Steps.ToList();
             Context = parent.Context;
         }
 
+        /// <summary>
+        /// Gets all the steps that are contained in the workflow
+        /// </summary>
         public IEnumerable<IStep> Steps => _steps;
 
-        public WorkflowOptions Options { get; }
-
+        /// <summary>
+        /// Gets the WorkflowContext used in the workflow execution
+        /// </summary>
         public WorkflowContext Context { get; set; }
 
+        /// <summary>
+        /// Add a Step to the workflow
+        /// </summary>
+        /// <param name="step"></param>
+        /// <returns></returns>
         public IStep SetStep(IStep step)
         {
             _steps.Add(step);
@@ -37,39 +49,24 @@ namespace WorkflowValidation
             return step;
         }
 
+        /// <summary>
+        /// Run all steps in the workflow
+        /// </summary>
         public void Run()
         {
             var ctx = Context ?? new WorkflowContext();
-            System.Diagnostics.Trace.WriteLine(string.Empty);
-            System.Diagnostics.Trace.WriteLine("Starting new Test-Workflow");
-            
             foreach (var step in _steps)
             {
                 ctx.CurrentStep = step;
                 ctx.StepNumber++;
 
-                //if(_options.TraceSteps)
-                //{
-                //    var name = string.IsNullOrEmpty(step.Name) ? nbr.ToString() : step.Name;
-                //    ctx.Log($"Step: {name}");
-                //}
-
                 step.Run(ctx);
 
                 foreach (var child in step.Workflow.Steps)
                 {
-                    //if (_options.TraceSteps)
-                    //{
-                    //    var name = string.IsNullOrEmpty(step.Name) ? nbr.ToString() : step.Name;
-                    //    ctx.Log($"Step: {name}");
-                    //}
-
                     child.Run(ctx);
                 }
             }
-
-            System.Diagnostics.Trace.WriteLine("End of Test-Workflow");
-            System.Diagnostics.Trace.WriteLine(string.Empty);
         }
     }
 }

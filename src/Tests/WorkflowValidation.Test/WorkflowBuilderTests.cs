@@ -12,6 +12,12 @@ namespace WorkflowValidation.Test
         [Test]
         public void WorkflowBuilder_Basic()
         {
+            WorkflowBuilder.StartWith(() => { }).Should().BeOfType<Workflow>();
+        }
+
+        [Test]
+        public void WorkflowBuilder_Basic_Then()
+        {
             WorkflowBuilder.StartWith(() => { })
                 .Then(() => { }).Should().BeOfType<Workflow>();
         }
@@ -26,6 +32,24 @@ namespace WorkflowValidation.Test
         public void WorkflowBuilder_Basic_Step_Title()
         {
             WorkflowBuilder.StartWith("Step", () => { }).Steps.Single().Name.Should().Be("Step");
+        }
+
+        [Test]
+        public void WorkflowBuilder_Context()
+        {
+            WorkflowBuilder.StartWith(c => { }).Should().BeOfType<Workflow>();
+        }
+
+        [Test]
+        public void WorkflowBuilder_Context_Step_Type()
+        {
+            WorkflowBuilder.StartWith("Step", c => { }).Steps.Single().Should().BeOfType<Step>();
+        }
+
+        [Test]
+        public void WorkflowBuilder_Context_Step_Title()
+        {
+            WorkflowBuilder.StartWith("Step", c => { }).Steps.Single().Name.Should().Be("Step");
         }
 
         [Test]
