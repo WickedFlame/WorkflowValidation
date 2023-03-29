@@ -58,8 +58,8 @@ jobs:
       - name: Install nuke tool
         if: steps.cache-nuke-build.outputs.cache-hit != 'true'
         run: |
-          dotnet tool update Nuke.GlobalTool --tool-path .\.nuke\tool
+          dotnet tool update Nuke.GlobalTool
       - name: Build and analyze
         run: |
-          .\.nuke\tool\nuke sonar -SonarToken ${{ secrets.SONAR_TOKEN }} -SonarServer https://sonarcloud.io
+          nuke sonar -SonarToken ${{ secrets.SONAR_TOKEN }} -SonarServer https://sonarcloud.io
           
