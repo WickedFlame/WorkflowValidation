@@ -8,3 +8,49 @@
 
 # WorkflowValidation
 Test Workflows in BDD style
+
+
+```csharp
+WorkflowBuilder.StartWith("Start step", c => { })
+    .Then("Continue with step 2", c => { })
+    .Then("And do step 3", c => { })
+    .Run();
+```
+  
+## Using Extensions and Tools
+```csharp
+using static WorkflowValidation.Tools.VerificationTools;
+using static WorkflowValidation.Tools.StepTools;
+using static WorkflowValidation.Tools.WorkflowTools;
+
+Workflow<MyCustomContextType>(ctx =>
+    StartWith(() =>
+        {
+            SetStep(b => b
+                .SetName("Start Step")
+                .Step(() => {
+                    ctx.Message = "Workflow is started";
+                })
+            );
+
+            Verify(b => b
+                .SetName("Verify something")
+                .Assert(() => !string.IsNullOrEmpty(ctx.Message))
+            );
+
+            SetStep(b => b
+                .SetName("End Step")
+                .Step(() => {
+                    ctx.Message = "Workflow is ended";
+                })
+            );
+        })
+        .Then(() => { })
+    )
+    .Run();
+
+public class MyCustomContextType
+{
+    public string Message { get; set; }
+}
+```
