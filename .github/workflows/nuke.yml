@@ -41,9 +41,6 @@ permissions:
 jobs:
   Analysis:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '5.0.x', '6.0.x' ]
 
     steps:
       - uses: actions/checkout@v3
