@@ -76,6 +76,41 @@ namespace WorkflowValidation.Test
                 .Run();
         }
 
+        [Test]
+        public void WorkflowValidation_Api_Verify_MultipleAsserts()
+        {
+            var cnt = 0;
+            WorkflowBuilder.StartWith(c =>
+                {
+                    c.Verify(v =>
+                    {
+                        v.SetName("verify name");
+                        v.Assert("one", () =>
+                        {
+                            cnt++;
+                            return true;
+                        });
+                        v.Assert(() =>
+                        {
+                            cnt++;
+                            return true;
+                        }).SetName("two");
+                    });
+                })
+                .Run();
+
+            cnt.Should().Be(2);
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_Verify_MultipleAsserts_RootVerify()
+        {
+            WorkflowBuilder.StartWith(() => { })
+                .Verify(ac => { })
+                .Then(() => { })
+                .Run();
+        }
+
 
 
 

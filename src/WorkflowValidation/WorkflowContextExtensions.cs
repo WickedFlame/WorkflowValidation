@@ -38,8 +38,8 @@ namespace WorkflowValidation
         public static WorkflowContext Verify(this WorkflowContext ctx, string name, Func<bool> assert)
         {
             return ctx.Verify(b => b
-                .SetName(name)
                 .Assert(assert)
+                .SetName(name)
             );
         }
 

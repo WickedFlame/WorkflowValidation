@@ -24,9 +24,15 @@ namespace WorkflowValidation.Test.Tools
         }
 
         [Test]
+        public void VerificationTools_Verify_Return_VerificationSteps()
+        {
+            Verify(() => true).Steps.Single().Should().BeOfType<VerificationStep>();
+        }
+
+        [Test]
         public void VerificationTools_Verify_Return_Steps()
         {
-            Verify(() => true).Steps.Single().Should().BeOfType<AssertionStep>();
+            Verify(() => true).Steps.Single().Workflow.Steps.Single().Should().BeOfType<AssertionStep>();
         }
 
 
@@ -59,13 +65,23 @@ namespace WorkflowValidation.Test.Tools
         }
 
         [Test]
+        public void VerificationTools_Verify_Builder_Return_VerificationStep()
+        {
+            Verify(b => b
+                    .SetName("assert")
+                    .Assert(() => true)
+                )
+                .Steps.Single().Should().BeOfType<VerificationStep>();
+        }
+
+        [Test]
         public void VerificationTools_Verify_Builder_Return_Steps()
         {
             Verify(b => b
                     .SetName("assert")
                     .Assert(() => true)
                 )
-                .Steps.Single().Should().BeOfType<AssertionStep>();
+                .Steps.Single().Workflow.Steps.Single().Should().BeOfType<AssertionStep>();
         }
 
         [Test]
