@@ -38,6 +38,8 @@ namespace WorkflowValidation
             }
 
             _step(context);
+
+            Workflow.Run();
         }
     }
 }

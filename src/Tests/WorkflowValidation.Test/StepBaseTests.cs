@@ -12,7 +12,7 @@ namespace WorkflowValidation.Test
         [Test]
         public void StepBase_Name()
         {
-            new TestStep().Name.Should().BeNull();
+            new TestStep().Name.Should().BeEmpty();
         }
 
         [Test]

@@ -61,11 +61,6 @@ namespace WorkflowValidation
                 ctx.StepNumber++;
 
                 step.Run(ctx);
-
-                foreach (var child in step.Workflow.Steps)
-                {
-                    child.Run(ctx);
-                }
             }
 
             return this;

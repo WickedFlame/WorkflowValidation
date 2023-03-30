@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace WorkflowValidation
 {
@@ -11,7 +13,8 @@ namespace WorkflowValidation
         private readonly IWorkflow _workflow = new Workflow();
 
         private string _name;
-        private IStep _step;
+
+        private List<AssertionStepBuilder> _steps = new List<AssertionStepBuilder>();
 
         /// <summary>
         /// Set the <see cref="WorkflowContext"/> for the Verification Step
@@ -42,10 +45,33 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="assert"></param>
         /// <returns></returns>
-        public VerificationBuilder Assert(Func<bool> assert)
+        public AssertionStepBuilder Assert(Func<bool> assert)
         {
-            _step = new AssertionStep(assert);
-            return this;
+            var builder = new AssertionStepBuilder()
+                .Step(assert);
+
+            _steps.Add(builder);
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Assert the result of a step in the workflow.
+        /// Creates a <see cref="AssertionStep"/>.
+        /// Throws <see cref="WorkflowException"/> if the assertion fails.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="assert"></param>
+        /// <returns></returns>
+        public AssertionStepBuilder Assert(string name, Func<bool> assert)
+        {
+            var builder = new AssertionStepBuilder()
+                .Step(assert)
+                .SetName(name);
+
+            _steps.Add(builder);
+
+            return builder;
         }
 
         /// <summary>
@@ -54,14 +80,23 @@ namespace WorkflowValidation
         /// <returns></returns>
         public IWorkflow Build()
         {
-            if (_step == null)
+            var step = new VerificationStep();
+
+            if (!string.IsNullOrEmpty(_name))
             {
-                _step = new Step(() => { });
+                step.SetName(_name);
             }
 
-            _step.SetName(string.IsNullOrEmpty(_name) ? string.Empty : _name);
+            foreach (var builder in _steps)
+            {
+                builder.SetContext(_workflow.Context);
+                foreach (var assert in builder.Build().Steps)
+                {
+                    step.Workflow.SetStep(assert);
+                }
+            }
 
-            _workflow.SetStep(_step);
+            _workflow.SetStep(step);
 
             return _workflow;
         }

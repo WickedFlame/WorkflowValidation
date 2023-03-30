@@ -12,7 +12,7 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(Action step)
+        public static IWorkflowStep StartWith(Action step)
         {
             var workflow = new Workflow();
             workflow.SetStep(new Step(step));
@@ -26,7 +26,7 @@ namespace WorkflowValidation
         /// <param name="description"></param>
         /// <param name="work"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(string description, Action work)
+        public static IWorkflowStep StartWith(string description, Action work)
         {
             var workflow = new Workflow();
             workflow.SetStep(new Step(work)
@@ -41,7 +41,7 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(Action<WorkflowContext> step)
+        public static IWorkflowStep StartWith(Action<WorkflowContext> step)
         {
             var workflow = new Workflow();
             workflow.SetStep(new Step(step));
@@ -55,7 +55,7 @@ namespace WorkflowValidation
         /// <param name="description"></param>
         /// <param name="work"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(string description, Action<WorkflowContext> work)
+        public static IWorkflowStep StartWith(string description, Action<WorkflowContext> work)
         {
             var workflow = new Workflow();
             workflow.SetStep(new Step(work)

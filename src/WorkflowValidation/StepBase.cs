@@ -14,7 +14,7 @@ namespace WorkflowValidation
         /// <summary>
         /// Gets the name of the step
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Executes the step
