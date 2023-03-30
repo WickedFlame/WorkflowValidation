@@ -11,6 +11,12 @@ version: $(base_version).{build}
 image:
   - Visual Studio 2022
 
+skip_tags: true
+branches:
+  only:
+    - main
+    - dev
+
 for:
   - 
     branches:
