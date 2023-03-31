@@ -7,13 +7,7 @@ namespace WorkflowValidation.Test.Tools
         [Test]
         public void StepTools_SetStep_Return()
         {
-            SetStep(b => { }).Should().BeOfType<Workflow>();
-        }
-
-        [Test]
-        public void StepTools_Verify_Return_Steps()
-        {
-            SetStep(b => { }).Steps.Single().Should().BeOfType<Step>();
+            SetStep(b => { }).Should().BeOfType<WorkflowContext>();
         }
     }
 }

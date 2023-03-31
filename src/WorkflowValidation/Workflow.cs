@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace WorkflowValidation
 {
@@ -54,13 +57,19 @@ namespace WorkflowValidation
         /// </summary>
         public IWorkflow Run()
         {
-            var ctx = Context ?? new WorkflowContext();
+            if (!_steps.Any())
+            {
+                return this;
+            }
+
+            Context ??= new WorkflowContext();
+            
             foreach (var step in _steps)
             {
-                ctx.CurrentStep = step;
-                ctx.StepNumber++;
+                Context.CurrentStep = step;
+                Context.StepNumber++;
 
-                step.Run(ctx);
+                step.Run(Context);
             }
 
             return this;

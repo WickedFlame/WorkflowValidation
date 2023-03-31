@@ -9,7 +9,7 @@ namespace WorkflowValidation
     {
         private readonly IWorkflow _workflow = new Workflow();
         private string _name;
-        private Action _step = () => { };
+        private IStep _step = new Step(() => { });
         
         /// <summary>
         /// Set the <see cref="WorkflowContext"/> to the workflow of the <see cref="IStep"/>
@@ -42,7 +42,19 @@ namespace WorkflowValidation
         /// <returns></returns>
         public StepBuilder Step(Action step)
         {
-            _step = step;
+            _step = new Step(step);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set the workflow step that will be executed
+        /// </summary>
+        /// <param name="step"></param>
+        /// <returns></returns>
+        public StepBuilder Step(Action<WorkflowContext> step)
+        {
+            _step = new Step(step);
 
             return this;
         }
@@ -53,9 +65,12 @@ namespace WorkflowValidation
         /// <returns></returns>
         public IWorkflow Build()
         {
-            _workflow.SetStep(new Step(_step)
-                .SetName(_name)
-            );
+            if (!string.IsNullOrEmpty(_name))
+            {
+                _step.SetName(_name);
+            }
+
+            _workflow.SetStep(_step);
 
             return _workflow;
         }

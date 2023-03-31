@@ -1,0 +1,10 @@
+---data
+-> Step: 0 Start
+-> Step: 1 Start Step
+->       3 Content of substep of start step
+-> Step: 4 startwith of substep of start step
+-> Step: 2 substep of start step
+-> Step: 5 Sub of start step
+-> Step: 10 Verify after start step
+-> Verify: 11 Assert of verify after start step [Passed]
+-> Step: 12 Then after start step

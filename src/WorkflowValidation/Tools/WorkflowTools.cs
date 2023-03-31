@@ -8,7 +8,7 @@ namespace WorkflowValidation.Tools
     public static class WorkflowTools
     {
         /// <summary>
-        /// Create a context that is used within the workflow execution
+        /// Create workflow that a context that is used within the workflow execution
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="workflow"></param>
@@ -20,7 +20,8 @@ namespace WorkflowValidation.Tools
         }
 
         /// <summary>
-        /// Start a new workflow with the step
+        /// Start a new workflow.
+        /// Workflows that are nested will not be run automaticaly. Use Run() to run a Workflow.
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
@@ -30,7 +31,8 @@ namespace WorkflowValidation.Tools
         }
 
         /// <summary>
-        /// Start a new workflow with the step
+        /// Start a new workflow.
+        /// Workflows that are nested will not be run automaticaly. Use Run() to run a Workflow.
         /// </summary>
         /// <param name="description"></param>
         /// <param name="step"></param>
@@ -41,7 +43,8 @@ namespace WorkflowValidation.Tools
         }
 
         /// <summary>
-        /// Start a new workflow with the step
+        /// Start a new workflow.
+        /// Workflows that are nested will not be run automaticaly. Use Run() to run a Workflow.
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
@@ -61,6 +64,25 @@ namespace WorkflowValidation.Tools
             return WorkflowBuilder.StartWith(description, step);
         }
 
+
+
+        public static IWorkflowSetup SetupWorkflow(Action<WorkflowSetup> setup)
+        {
+            throw new NotImplementedException();
+        }
         
+    }
+
+    public interface IWorkflowSetup
+    {
+        IWorkflow StartWith(string name, Action<WorkflowContext> step);
+    }
+
+    public class WorkflowSetup
+    {
+        public WorkflowSetup SetDescription(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
