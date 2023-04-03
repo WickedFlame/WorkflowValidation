@@ -18,6 +18,11 @@ namespace WorkflowValidation
         WorkflowContext Context { get; set; }
 
         /// <summary>
+        /// Setup for the workflow
+        /// </summary>
+        IWorkflowSetup WorkflowSetup { get; set; }
+
+        /// <summary>
         /// Add a Step to the workflow
         /// </summary>
         /// <param name="step"></param>

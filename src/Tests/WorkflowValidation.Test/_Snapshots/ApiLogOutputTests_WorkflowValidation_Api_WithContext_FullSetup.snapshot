@@ -1,4 +1,5 @@
 ---data
+Workflow: This is a Workflow
 -> Step: 0 Start
 -> Step: 1 Start Step
 -> Step: 2 substep of start step

@@ -5,6 +5,7 @@ using static WorkflowValidation.Tools.WorkflowTools;
 
 namespace WorkflowValidation.Test
 {
+    //[UpdateSnapshot]
     public class ApiLogOutputTests
     {
         [Test]
@@ -16,7 +17,8 @@ namespace WorkflowValidation.Test
             Console.SetOut(consoleOut);
 
             Workflow<LogTestContext>(ctx =>
-                    StartWith("0 Start", () =>
+                    SetupWorkflow(s => s.SetDescription("This is a Workflow"))
+                        .StartWith("0 Start", () =>
                         {
                             SetStep(b => b
                                 .SetName("1 Start Step")
@@ -74,7 +76,8 @@ namespace WorkflowValidation.Test
             Console.SetOut(consoleOut);
 
             Workflow<LogTestContext>(ctx =>
-                    StartWith("0 Start", c =>
+                    SetupWorkflow(s => s.SetDescription("This is a Workflow"))
+                        .StartWith("0 Start", c =>
                         {
                             c.SetStep(b => b
                                 .SetName("1 Start Step")

@@ -15,8 +15,22 @@ namespace WorkflowValidation.Tools
         /// <returns></returns>
         public static IWorkflow Workflow<T>(Func<T, IWorkflow> workflow) where T : class, new()
         {
-            var context = new T();
+            var context = Activator.CreateInstance(typeof(T)) as T;
             return workflow(context);
+        }
+
+        /// <summary>
+        /// Create workflow that a context that is used within the workflow execution
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="step"></param>
+        /// <returns></returns>
+        public static IWorkflow Workflow<T>(Action<T, IWorkflowBuilder> step) where T : class, new()
+        {
+            var workflow = new Workflow();
+            workflow.SetStep(new Step(() => step(Activator.CreateInstance(typeof(T)) as T, new WorkflowBuilder())));
+
+            return workflow;
         }
 
         /// <summary>
@@ -27,7 +41,7 @@ namespace WorkflowValidation.Tools
         /// <returns></returns>
         public static IWorkflow StartWith(Action step)
         {
-            return WorkflowBuilder.StartWith(step);
+            return WorkflowValidation.Workflow.StartWith(step);
         }
 
         /// <summary>
@@ -39,7 +53,7 @@ namespace WorkflowValidation.Tools
         /// <returns></returns>
         public static IWorkflow StartWith(string description, Action step)
         {
-            return WorkflowBuilder.StartWith(description, step);
+            return WorkflowValidation.Workflow.StartWith(description, step);
         }
 
         /// <summary>
@@ -50,7 +64,7 @@ namespace WorkflowValidation.Tools
         /// <returns></returns>
         public static IWorkflow StartWith(Action<WorkflowContext> step)
         {
-            return WorkflowBuilder.StartWith(step);
+            return WorkflowValidation.Workflow.StartWith(step);
         }
 
         /// <summary>
@@ -61,28 +75,14 @@ namespace WorkflowValidation.Tools
         /// <returns></returns>
         public static IWorkflow StartWith(string description, Action<WorkflowContext> step)
         {
-            return WorkflowBuilder.StartWith(description, step);
+            return WorkflowValidation.Workflow.StartWith(description, step);
         }
 
-
-
-        public static IWorkflowSetup SetupWorkflow(Action<WorkflowSetup> setup)
+        public static IWorkflowBuilder SetupWorkflow(Action<IWorkflowSetupBuilder> setup)
         {
-            throw new NotImplementedException();
+            var builder = new WorkflowBuilder();
+            return builder.SetupWorkflow(setup);
         }
         
-    }
-
-    public interface IWorkflowSetup
-    {
-        IWorkflow StartWith(string name, Action<WorkflowContext> step);
-    }
-
-    public class WorkflowSetup
-    {
-        public WorkflowSetup SetDescription(string name)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
