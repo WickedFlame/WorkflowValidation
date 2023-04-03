@@ -13,7 +13,7 @@ Test Workflows in BDD style.
 
 
 ```csharp
-WorkflowBuilder.StartWith("Start step", c => { })
+Workflow.StartWith("Start step", c => { })
     .Then("Continue with step 2", c => { })
     .Then("And do step 3", c => { })
     .Run();
