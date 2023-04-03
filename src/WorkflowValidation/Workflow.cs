@@ -96,26 +96,20 @@ namespace WorkflowValidation
         /// <returns></returns>
         public static IWorkflowStep StartWith(Action step)
         {
-            var workflow = new Workflow();
-            workflow.SetStep(new Step(step));
-
-            return workflow;
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(step);
         }
 
         /// <summary>
         /// Start the workflow with the given step
         /// </summary>
-        /// <param name="description"></param>
+        /// <param name="name"></param>
         /// <param name="work"></param>
         /// <returns></returns>
-        public static IWorkflowStep StartWith(string description, Action work)
+        public static IWorkflowStep StartWith(string name, Action work)
         {
-            var workflow = new Workflow();
-            workflow.SetStep(new Step(work)
-                .SetName(description)
-            );
-
-            return workflow;
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(name, work);
         }
 
         /// <summary>
@@ -125,26 +119,20 @@ namespace WorkflowValidation
         /// <returns></returns>
         public static IWorkflowStep StartWith(Action<WorkflowContext> step)
         {
-            var workflow = new Workflow();
-            workflow.SetStep(new Step(step));
-
-            return workflow;
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(step);
         }
 
         /// <summary>
         /// Start the workflow with the given step
         /// </summary>
-        /// <param name="description"></param>
+        /// <param name="name"></param>
         /// <param name="work"></param>
         /// <returns></returns>
-        public static IWorkflowStep StartWith(string description, Action<WorkflowContext> work)
+        public static IWorkflowStep StartWith(string name, Action<WorkflowContext> work)
         {
-            var workflow = new Workflow();
-            workflow.SetStep(new Step(work)
-                .SetName(description)
-            );
-
-            return workflow;
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(name, work);
         }
     }
 }
