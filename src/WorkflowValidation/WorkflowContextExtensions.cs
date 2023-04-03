@@ -26,6 +26,27 @@ namespace WorkflowValidation
             return ctx;
         }
 
+        /// <summary>
+        /// Setup the <see cref="IStep"/>
+        /// The step is automatically executed because the step is added to a running workflow
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="name"></param>
+        /// <param name="step"></param>
+        public static WorkflowContext SetStep(this WorkflowContext ctx, string name, Action<StepBuilder> step)
+        {
+            var builder = new StepBuilder()
+                .SetContext(ctx)
+                .SetName(name);
+
+            step(builder);
+
+            builder.Build()
+                .Run();
+
+            return ctx;
+        }
+
         [AssertionMethod]
         public static WorkflowContext Verify(this WorkflowContext ctx, Func<bool> assert)
         {

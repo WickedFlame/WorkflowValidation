@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WorkflowValidation
@@ -25,6 +26,7 @@ namespace WorkflowValidation
         {
             _steps = parent.Steps as List<IStep> ?? parent.Steps.ToList();
             Context = parent.Context;
+            WorkflowSetup = parent.WorkflowSetup;
         }
 
         /// <summary>
@@ -36,6 +38,11 @@ namespace WorkflowValidation
         /// Gets the WorkflowContext used in the workflow execution
         /// </summary>
         public WorkflowContext Context { get; set; }
+
+        /// <summary>
+        /// Setup for the workflow
+        /// </summary>
+        public IWorkflowSetup WorkflowSetup { get; set; }
 
         /// <summary>
         /// Add a Step to the workflow
@@ -54,16 +61,78 @@ namespace WorkflowValidation
         /// </summary>
         public IWorkflow Run()
         {
-            var ctx = Context ?? new WorkflowContext();
+            if (!_steps.Any())
+            {
+                return this;
+            }
+
+            Context ??= new WorkflowContext();
+
+            if (WorkflowSetup != null)
+            {
+                WorkflowSetup.Run(Context);
+            }
+
             foreach (var step in _steps)
             {
-                ctx.CurrentStep = step;
-                ctx.StepNumber++;
+                Context.CurrentStep = step;
+                Context.StepNumber++;
 
-                step.Run(ctx);
+                step.Run(Context);
             }
 
             return this;
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// Start the workflow with the given step
+        /// </summary>
+        /// <param name="step"></param>
+        /// <returns></returns>
+        public static IWorkflowStep StartWith(Action step)
+        {
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(step);
+        }
+
+        /// <summary>
+        /// Start the workflow with the given step
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="work"></param>
+        /// <returns></returns>
+        public static IWorkflowStep StartWith(string name, Action work)
+        {
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(name, work);
+        }
+
+        /// <summary>
+        /// Start the workflow with the given step
+        /// </summary>
+        /// <param name="step"></param>
+        /// <returns></returns>
+        public static IWorkflowStep StartWith(Action<WorkflowContext> step)
+        {
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(step);
+        }
+
+        /// <summary>
+        /// Start the workflow with the given step
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="work"></param>
+        /// <returns></returns>
+        public static IWorkflowStep StartWith(string name, Action<WorkflowContext> work)
+        {
+            var builder = new WorkflowBuilder();
+            return builder.StartWith(name, work);
         }
     }
 }

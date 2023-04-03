@@ -37,6 +37,17 @@ namespace WorkflowValidation.Test
         }
 
         [Test]
+        public void Workflow_ctor_Workflow_WorkflowSetup()
+        {
+            var workflow = new Workflow
+            {
+                WorkflowSetup = new WorkflowSetup()
+            };
+
+            new Workflow(workflow).WorkflowSetup.Should().BeSameAs(workflow.WorkflowSetup);
+        }
+
+        [Test]
         public void Workflow_Steps_Initial()
         {
             new Workflow().Steps.Should().NotBeNull();
@@ -50,6 +61,13 @@ namespace WorkflowValidation.Test
             workflow.SetStep(step);
 
             workflow.Steps.Single().Should().BeSameAs(step);
+        }
+
+        [Test]
+        public void Workflow_WorkflowSetup()
+        {
+            var workflow = new Workflow();
+            workflow.WorkflowSetup.Should().BeNull();
         }
 
         [Test]

@@ -46,7 +46,7 @@ namespace WorkflowValidation
             {
 
                 _ctx.Log($"-> Verify: {msg} [Failed]");
-                throw new WorkflowException($"Expected: {msg}");
+                throw new WorkflowException($"The workflowstep Verify: {msg} [Failed]");
             }
 
             _ctx.Log($"-> Verify: {msg} [Passed]");

@@ -92,6 +92,11 @@ namespace WorkflowValidation
                 builder.SetContext(_workflow.Context);
                 foreach (var assert in builder.Build().Steps)
                 {
+                    if (string.IsNullOrEmpty(assert.Name))
+                    {
+                        assert.SetName(_name);
+                    }
+
                     step.Workflow.SetStep(assert);
                 }
             }
