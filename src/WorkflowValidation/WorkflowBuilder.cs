@@ -70,10 +70,22 @@ namespace WorkflowValidation
         /// <returns></returns>
         public IWorkflowBuilder SetupWorkflow(Action<IWorkflowSetupBuilder> setup)
         {
-            var description = new WorkflowSetup();
-            setup(description);
+            var ws = new WorkflowSetup();
+            setup(ws);
 
-            _workflow.WorkflowSetup = description;
+            _workflow.WorkflowSetup = ws;
+
+            return this;
+        }
+        
+        /// <summary>
+        /// Setup for a new workflow
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        public IWorkflowBuilder SetupWorkflow(string description)
+        {
+            SetupWorkflow(s => s.SetDescription(description));
 
             return this;
         }

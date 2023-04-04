@@ -35,5 +35,20 @@ namespace WorkflowValidation.Tools
             return builder.Build()
                 .Run().Context;
         }
+        
+        /// <summary>
+        /// Setup the <see cref="IStep"/>
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="step"></param>
+        public static WorkflowContext SetStep(string name, Action step)
+        {
+            var builder = new StepBuilder()
+                .SetName(name)
+                .Step(step);
+
+            return builder.Build()
+                .Run().Context;
+        }
     }
 }

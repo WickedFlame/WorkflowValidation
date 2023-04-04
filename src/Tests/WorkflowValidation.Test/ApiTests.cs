@@ -50,6 +50,26 @@ namespace WorkflowValidation.Test
                 .Run();
         }
 
+        [Test]
+        public void WorkflowValidation_Api_Setup_Description()
+        {
+            Workflow.SetupWorkflow(s => s.SetDescription("Description"))
+                .StartWith("Start", () => { })
+                .Then("Then 1", () => { })
+                .Then("Then 2", () => { })
+                .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_Setup_DescriptionOnly()
+        {
+            Workflow.SetupWorkflow("Description")
+                .StartWith("Start", () => { })
+                .Then("Then 1", () => { })
+                .Then("Then 2", () => { })
+                .Run();
+        }
+
 
 
 
@@ -341,8 +361,20 @@ namespace WorkflowValidation.Test
         public void WorkflowValidation_Api_WorkflowTools_Simple_FullSetup()
         {
             Workflow<WorkflowTestContext>(ctx =>
-                    StartWith("Start", () => { })
-                        .Then("Then", () => { })
+                    StartWith("Start", () =>
+                        {
+                            SetStep("First step in the start", () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+                        })
+                        .Then("Then", () =>
+                        {
+                            SetStep("First step in the Then step", () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+                        })
                 )
                 .Run();
         }
