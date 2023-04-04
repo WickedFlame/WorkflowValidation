@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  
 ## vNext
 ### Added
+- Setups for workflows can be created in any flavour
+- Set description of workflow directly in the WorkflowSetup
+
+## v1.1.0
+### Added
 - Setup for workflows containing a description that gets output
   
 ### Changed
