@@ -5,7 +5,7 @@ using static WorkflowValidation.Tools.WorkflowTools;
 
 namespace WorkflowValidation.Test
 {
-    //[UpdateSnapshot]
+    [UpdateSnapshot]
     public class ApiLogOutputTests
     {
         [Test]
@@ -16,12 +16,13 @@ namespace WorkflowValidation.Test
             var consoleOut = new StringWriter();
             Console.SetOut(consoleOut);
 
-            Workflow<LogTestContext>(ctx =>
+            var wf = Workflow<LogTestContext>(ctx =>
                     SetupWorkflow(s => s.SetDescription("This is a Workflow"))
-                        .StartWith("0 Start", () =>
+                        .StartWith("0 Start", s =>
                         {
                             SetStep(b => b
                                 .SetName("1 Start Step")
+                                .SetContext(s)
                                 .Step(c =>
                                 {
                                     SetStep("2 substep of start step", s =>
@@ -47,8 +48,12 @@ namespace WorkflowValidation.Test
                         })
                         .Then("12 Then after start step", () =>
                         {
+                            // don't use a startwith inside a already starte workflow.
+                            // new workflows have to be executed with Run()
                             StartWith("13 Sub of the after start step", () =>
                             {
+                                // don't use a startwith inside a already starte workflow.
+                                // new workflows have to be executed with Run()
                                 StartWith("14 Last start with", () =>
                                 {
                                     Verify(v =>
@@ -56,6 +61,9 @@ namespace WorkflowValidation.Test
                                         v.SetName("15 last verify");
                                         v.Assert("16 Last assert of last verify", () => true);
                                     });
+
+                                    // this will never be reached!
+                                    throw new Exception();
                                 });
                             });
                         })
@@ -65,6 +73,8 @@ namespace WorkflowValidation.Test
             consoleOut.ToString().TrimEnd().MatchSnapshot();
 
             Console.SetOut(stdOut);
+
+            wf.Context.Logs.MatchSnapshot(() => new { Name = "logs" });
         }
 
         [Test]
@@ -75,7 +85,7 @@ namespace WorkflowValidation.Test
             var consoleOut = new StringWriter();
             Console.SetOut(consoleOut);
 
-            Workflow<LogTestContext>(ctx =>
+            var wf = Workflow<LogTestContext>(ctx =>
                     SetupWorkflow(s => s.SetDescription("This is a Workflow"))
                         .StartWith("0 Start", c =>
                         {
@@ -118,6 +128,8 @@ namespace WorkflowValidation.Test
             consoleOut.ToString().TrimEnd().MatchSnapshot();
 
             Console.SetOut(stdOut);
+
+            wf.Context.Logs.MatchSnapshot(() => new { Name = "logs" });
         }
 
 

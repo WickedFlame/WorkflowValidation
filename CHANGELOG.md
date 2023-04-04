@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Setups for workflows can be created in any flavour
 - Set description of workflow directly in the WorkflowSetup
+- WorkflowContext stores all log messages
 
 ## v1.1.0
 ### Added

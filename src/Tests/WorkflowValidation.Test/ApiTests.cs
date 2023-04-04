@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using static WorkflowValidation.Tools.VerificationTools;
 using static WorkflowValidation.Tools.StepTools;
 using static WorkflowValidation.Tools.WorkflowTools;
+using Polaroider;
 
 namespace WorkflowValidation.Test
 {
@@ -377,6 +378,34 @@ namespace WorkflowValidation.Test
                         })
                 )
                 .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_WorkflowTools_Simple_FullSetup_PassContext()
+        {
+            Workflow<WorkflowTestContext>(ctx =>
+                    StartWith("Start", c1 =>
+                        {
+                            SetStep("First step in the start", c1, () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+
+                            Verify(v => v
+                                .SetName("Verify of first check")
+                                .SetContext(c1)
+                                .Assert(() => true)
+                            );
+                        })
+                        .Then("Then", c1 =>
+                        {
+                            SetStep("First step in the Then step", c1, () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+                        })
+                )
+                .Run().Context.Logs.MatchSnapshot();
         }
 
         [Test]
