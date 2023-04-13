@@ -48,7 +48,7 @@ namespace WorkflowValidation.Test
                         })
                         .Then("12 Then after start step", () =>
                         {
-                            // don't use a startwith inside a already starte workflow.
+                            // don't use a startwith inside a already started workflow.
                             // new workflows have to be executed with Run()
                             StartWith("13 Sub of the after start step", () =>
                             {
@@ -122,6 +122,47 @@ namespace WorkflowValidation.Test
                                 });
                             });
                         })
+                )
+                .Run();
+
+            consoleOut.ToString().TrimEnd().MatchSnapshot();
+
+            Console.SetOut(stdOut);
+
+            wf.Context.Logs.MatchSnapshot(() => new { Name = "logs" });
+        }
+
+        [Test]
+        [UpdateSnapshot]
+        public void LogOutput_Default()
+        {
+            var stdOut = Console.Out;
+
+            var consoleOut = new StringWriter();
+            Console.SetOut(consoleOut);
+
+            var wf = Workflow<LogTestContext>(ctx =>
+                    SetupWorkflow(s => s.SetDescription("This is a Workflow"))
+                        .StartWith("1 Start", c =>
+                        {
+                            c.SetStep(b => b
+                                .SetName("2 Start Step")
+                                .Step(d =>
+                                {
+                                    d.SetStep("3 substep of start step", s =>
+                                        s.Step(r => { })
+                                    );
+
+                                    d.SetStep("4 Sub of start step", s => { });
+                                })
+                            );
+
+                            c.Verify(b => b
+                                .SetName("5 Verify after start step")
+                                .Assert("6 Assert of verify after start step", () => true)
+                            );
+                        })
+                        .Then("7 Then after start step", ()=> { })
                 )
                 .Run();
 

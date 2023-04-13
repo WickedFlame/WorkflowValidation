@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Set description of workflow directly in the WorkflowSetup
 - WorkflowContext stores all log messages
 
+### Changed
+- Workflowdescription is now presented prominent in output
+
 ## v1.1.0
 ### Added
 - Setup for workflows containing a description that gets output

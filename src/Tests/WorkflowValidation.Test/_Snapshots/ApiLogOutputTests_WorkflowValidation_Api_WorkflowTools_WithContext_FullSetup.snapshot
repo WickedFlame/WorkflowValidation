@@ -1,14 +1,18 @@
 ---metadata
 Name: logs
 ---data
+----------------------------------------
 Workflow: This is a Workflow
+----------------------------------------
 -> Step: 0 Start
 -> Step: 1 Start Step
 -> Step: 5 Sub of start step
 -> Step: 12 Then after start step
 ---metadata
 ---data
+----------------------------------------
 Workflow: This is a Workflow
+----------------------------------------
 -> Step: 0 Start
 -> Step: 1 Start Step
 ->       3 Content of substep of start step
