@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
  
-## vNext
+## v1.2.0
 ### Changed
 - WorkflowExceptions now contain all Steps as message
 - StackTrace in WorkflowExceptions is now at the root of the Run to minimize the output
