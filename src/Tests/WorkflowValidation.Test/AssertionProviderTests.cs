@@ -150,5 +150,19 @@ namespace WorkflowValidation.Test
 
             wf.Verify(x => x.Log("-> Verify: param [Failed]"));
         }
+
+        [Test]
+        public void AssertionProvider_Assert_Message()
+        {
+            var ctx = new AssertionProvider(new Mock<WorkflowContext>().Object);
+            try
+            {
+                ctx.Assert(() => false, "this is a test");
+            }
+            catch(WorkflowException e)
+            {
+                e.Message.Should().Be($"The workflowstep Verify: this is a test [Failed]{Environment.NewLine}");
+            }
+        }
     }
 }

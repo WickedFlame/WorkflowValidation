@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Polaroider;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -102,6 +103,23 @@ namespace WorkflowValidation.Test
             workflow.Run();
 
             executed.Should().BeTrue();
+        }
+
+        [Test]
+        public void Workflow_Run_Exception()
+        {
+            var step = new AssertionStep(() => false);
+            var workflow = new Workflow();
+            workflow.SetStep(step);
+
+            try
+            {
+                workflow.Run();
+            }
+            catch (WorkflowException e)
+            {
+                e.MatchSnapshot();
+            }
         }
     }
 }

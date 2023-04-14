@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace WorkflowValidation
 {
@@ -44,9 +45,16 @@ namespace WorkflowValidation
 
             if (!assert())
             {
-
                 _ctx.Log($"-> Verify: {msg} [Failed]");
-                throw new WorkflowException($"The workflowstep Verify: {msg} [Failed]");
+
+                var sb = new StringBuilder();
+                sb.AppendLine($"The workflowstep Verify: {msg} [Failed]");
+                foreach (var log in _ctx.Logs)
+                {
+                    sb.AppendLine(log);
+                }
+
+                throw new WorkflowException(sb.ToString());
             }
 
             _ctx.Log($"-> Verify: {msg} [Passed]");

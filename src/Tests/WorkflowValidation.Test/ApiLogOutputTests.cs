@@ -133,7 +133,6 @@ namespace WorkflowValidation.Test
         }
 
         [Test]
-        [UpdateSnapshot]
         public void LogOutput_Default()
         {
             var stdOut = Console.Out;
@@ -167,6 +166,53 @@ namespace WorkflowValidation.Test
                 .Run();
 
             consoleOut.ToString().TrimEnd().MatchSnapshot();
+
+            Console.SetOut(stdOut);
+
+            wf.Context.Logs.MatchSnapshot(() => new { Name = "logs" });
+        }
+
+        [Test]
+        public void LogOutput_Validation_Fail()
+        {
+            var stdOut = Console.Out;
+
+            var consoleOut = new StringWriter();
+            Console.SetOut(consoleOut);
+            
+            var wf = Workflow<LogTestContext>(ctx =>
+                    SetupWorkflow(s => s.SetDescription("This is a Workflow"))
+                        .StartWith("1 Start", c =>
+                        {
+                            c.SetStep(b => b
+                                .SetName("2 Start Step")
+                                .Step(d =>
+                                {
+                                    d.SetStep("3 substep of start step", s =>
+                                        s.Step(r => { })
+                                    );
+
+                                    d.SetStep("4 Sub of start step", s => { });
+                                })
+                            );
+
+                            c.Verify(b => b
+                                .SetName("5 Verify after start step")
+                                .Assert("6 Assert of verify after start step", () => false)
+                            );
+                        })
+                        .Then("7 Then after start step", () => { })
+                );
+            try
+            {
+                wf.Run();
+            }
+            catch(WorkflowException e)
+            {
+                e.MatchSnapshot();
+            }
+
+            consoleOut.ToString().TrimEnd().MatchSnapshot(() => new { Name = "output" });
 
             Console.SetOut(stdOut);
 

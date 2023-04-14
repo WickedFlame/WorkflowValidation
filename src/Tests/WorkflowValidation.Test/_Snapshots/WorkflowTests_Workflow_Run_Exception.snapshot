@@ -1,0 +1,6 @@
+---data
+The workflowstep Verify:  [Failed]
+-> Verify:  [Failed]
+
+   at WorkflowValidation.Workflow.Run()
+   at WorkflowValidation.Test.WorkflowTests.Workflow_Run_Exception()
