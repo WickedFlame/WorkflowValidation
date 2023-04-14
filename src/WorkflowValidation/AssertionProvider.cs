@@ -46,15 +46,8 @@ namespace WorkflowValidation
             if (!assert())
             {
                 _ctx.Log($"-> Verify: {msg} [Failed]");
-
-                var sb = new StringBuilder();
-                sb.AppendLine($"The workflowstep Verify: {msg} [Failed]");
-                foreach (var log in _ctx.Logs)
-                {
-                    sb.AppendLine(log);
-                }
-
-                throw new WorkflowException(sb.ToString());
+                
+                throw new WorkflowException($"The workflowstep Verify: {msg} [Failed]{Environment.NewLine}{_ctx.TraceLogs()}");
             }
 
             _ctx.Log($"-> Verify: {msg} [Passed]");

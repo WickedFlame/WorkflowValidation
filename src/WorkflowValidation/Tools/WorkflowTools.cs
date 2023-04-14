@@ -39,7 +39,7 @@ namespace WorkflowValidation.Tools
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(Action step)
+        public static IWorkflowStep StartWith(Action step)
         {
             return WorkflowValidation.Workflow.StartWith(step);
         }
@@ -51,7 +51,7 @@ namespace WorkflowValidation.Tools
         /// <param name="description"></param>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(string description, Action step)
+        public static IWorkflowStep StartWith(string description, Action step)
         {
             return WorkflowValidation.Workflow.StartWith(description, step);
         }
@@ -62,7 +62,7 @@ namespace WorkflowValidation.Tools
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(Action<WorkflowContext> step)
+        public static IWorkflowStep StartWith(Action<WorkflowContext> step)
         {
             return WorkflowValidation.Workflow.StartWith(step);
         }
@@ -73,7 +73,7 @@ namespace WorkflowValidation.Tools
         /// <param name="description"></param>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflow StartWith(string description, Action<WorkflowContext> step)
+        public static IWorkflowStep StartWith(string description, Action<WorkflowContext> step)
         {
             return WorkflowValidation.Workflow.StartWith(description, step);
         }

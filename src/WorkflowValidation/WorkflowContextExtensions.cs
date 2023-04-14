@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace WorkflowValidation
 {
@@ -82,6 +83,22 @@ namespace WorkflowValidation
                 .Run();
 
             return ctx;
+        }
+
+        /// <summary>
+        /// Write all logs to a string
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
+        public static string TraceLogs(this WorkflowContext ctx)
+        {
+            var sb = new StringBuilder();
+            foreach (var log in ctx.Logs)
+            {
+                sb.AppendLine(log);
+            }
+
+            return sb.ToString();
         }
     }
 }

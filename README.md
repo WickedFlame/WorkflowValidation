@@ -21,6 +21,16 @@ Workflow.StartWith("Start step", c => { })
   
 ## Using Extensions and Tools
 ```csharp
+using static WorkflowValidation.Tools.WorkflowTools;
+
+StartWith("Start step", c => { })
+    .Then("Continue with step 2", c => { })
+    .Then("And do step 3", c => { })
+    .Run();
+```
+
+### The more complex way
+```csharp
 using static WorkflowValidation.Tools.VerificationTools;
 using static WorkflowValidation.Tools.StepTools;
 using static WorkflowValidation.Tools.WorkflowTools;

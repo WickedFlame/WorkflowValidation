@@ -90,6 +90,11 @@ namespace WorkflowValidation
                 throw e;
 #pragma warning restore S3445 // Exceptions should not be explicitly rethrown
             }
+            catch (Exception e)
+            {
+                Context.Log($"Step {Context.CurrentStep.Name} [Failed] with a {e.GetType()}");
+                throw;
+            }
 
             return this;
         }
