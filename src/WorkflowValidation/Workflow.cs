@@ -73,12 +73,22 @@ namespace WorkflowValidation
                 WorkflowSetup.Run(Context);
             }
 
-            foreach (var step in _steps)
+            try
             {
-                Context.CurrentStep = step;
-                Context.StepNumber++;
+                foreach (var step in _steps)
+                {
+                    Context.CurrentStep = step;
+                    Context.StepNumber++;
 
-                step.Run(Context);
+                    step.Run(Context);
+                }
+            }
+            catch (WorkflowException e)
+            {
+                // reset the stacktrace to here
+#pragma warning disable S3445 // Exceptions should not be explicitly rethrown
+                throw e;
+#pragma warning restore S3445 // Exceptions should not be explicitly rethrown
             }
 
             return this;
