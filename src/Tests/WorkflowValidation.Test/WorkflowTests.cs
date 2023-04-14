@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Polaroider;
+using static WorkflowValidation.Tools.WorkflowTools;
 
 namespace WorkflowValidation.Test
 {
@@ -102,6 +99,68 @@ namespace WorkflowValidation.Test
             workflow.Run();
 
             executed.Should().BeTrue();
+        }
+
+        [Test]
+        public void Workflow_Run_AssertionStep()
+        {
+            var wf = Workflow.StartWith("Start", () => { })
+                .Then("Then", () => { })
+                .Verify("Exception", () => false)
+                .Then("Never reached", () => { });
+
+            try
+            {
+                wf.Run();
+            }
+            catch (WorkflowException e)
+            {
+                e.MatchSnapshot();
+            }
+        }
+
+        [Test]
+        public void Workflow_Run_Exception()
+        {
+            var wf = Workflow.StartWith("Start", () => { })
+                .Then("Then", () => { })
+                .Then("Exception", () => throw new Exception("exception"))
+                .Then("Never reached", () => { });
+
+            try
+            {
+                wf.Run();
+            }
+            catch (Exception e)
+            {
+                e.MatchSnapshot();
+            }
+        }
+
+        [Test]
+        public void Workflow_Run_Exception_Output()
+        {
+            var stdOut = Console.Out;
+
+            var consoleOut = new StringWriter();
+            Console.SetOut(consoleOut);
+
+            try
+            {
+                StartWith("Start", () => { })
+                    .Then("Then", () => { })
+                    .Then("Exception", () => throw new Exception("exception"))
+                    .Then("Never reached", () => { })
+                    .Run();
+            }
+            catch
+            {
+                // do nothing
+            }
+
+            consoleOut.ToString().TrimEnd().MatchSnapshot();
+
+            Console.SetOut(stdOut);
         }
     }
 }

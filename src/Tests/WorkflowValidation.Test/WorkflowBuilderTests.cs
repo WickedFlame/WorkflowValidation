@@ -102,5 +102,14 @@ namespace WorkflowValidation.Test
                 .StartWith(() => { })
                 .WorkflowSetup.Description.Should().Be("description");
         }
+
+        [Test]
+        public void WorkflowBuilder_SetupWorkflow_Description_Direct()
+        {
+            var builder = new WorkflowBuilder();
+            builder.SetupWorkflow("description")
+                .StartWith(() => { })
+                .WorkflowSetup.Description.Should().Be("description");
+        }
     }
 }

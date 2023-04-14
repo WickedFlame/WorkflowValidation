@@ -1,4 +1,7 @@
 ﻿
+using FluentAssertions.Execution;
+using Polaroider;
+
 namespace WorkflowValidation.Test
 {
     public class WorkflowContextExtensionsTests
@@ -94,6 +97,15 @@ namespace WorkflowValidation.Test
                 );
 
             act.Should().Throw<WorkflowException>();
+        }
+
+        [Test]
+        public void WorkflowContextExtensions_TraceLog()
+        {
+            var context = new WorkflowContext()
+                .Verify("assert", () => true);
+
+            context.TraceLogs().Trim().Should().Be("-> Verify: assert [Passed]");
         }
     }
 }

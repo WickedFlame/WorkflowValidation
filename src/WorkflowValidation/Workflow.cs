@@ -73,12 +73,27 @@ namespace WorkflowValidation
                 WorkflowSetup.Run(Context);
             }
 
-            foreach (var step in _steps)
+            try
             {
-                Context.CurrentStep = step;
-                Context.StepNumber++;
+                foreach (var step in _steps)
+                {
+                    Context.CurrentStep = step;
+                    Context.StepNumber++;
 
-                step.Run(Context);
+                    step.Run(Context);
+                }
+            }
+            catch (WorkflowException e)
+            {
+                // reset the stacktrace to here
+#pragma warning disable S3445 // Exceptions should not be explicitly rethrown
+                throw e;
+#pragma warning restore S3445 // Exceptions should not be explicitly rethrown
+            }
+            catch (Exception e)
+            {
+                Context.Log($"Step {Context.CurrentStep.Name} [Failed] with a {e.GetType()}");
+                throw;
             }
 
             return this;
@@ -133,6 +148,28 @@ namespace WorkflowValidation
         {
             var builder = new WorkflowBuilder();
             return builder.StartWith(name, work);
+        }
+
+        /// <summary>
+        /// Setup for a new workflow
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        public static IWorkflowBuilder SetupWorkflow(string description)
+        {
+            var builder = new WorkflowBuilder();
+            return builder.SetupWorkflow(description);
+        }
+
+        /// <summary>
+        /// Setup for a new workflow
+        /// </summary>
+        /// <param name="setup"></param>
+        /// <returns></returns>
+        public static IWorkflowBuilder SetupWorkflow(Action<IWorkflowSetupBuilder> setup)
+        {
+            var builder = new WorkflowBuilder();
+            return builder.SetupWorkflow(setup);
         }
     }
 }

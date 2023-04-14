@@ -78,6 +78,30 @@ namespace WorkflowValidation.Test.Tools
         }
 
 
+        [Test]
+        public void Workflow_SetupWorkflow_NotSet()
+        {
+            StartWith(() => { })
+                .WorkflowSetup.Should().BeNull();
+        }
+
+        [Test]
+        public void Workflow_SetupWorkflow_Description()
+        {
+            SetupWorkflow(s => s.SetDescription("description"))
+                .StartWith(() => { })
+                .WorkflowSetup.Description.Should().Be("description");
+        }
+
+        [Test]
+        public void Workflow_SetupWorkflow_Description_Direct()
+        {
+            SetupWorkflow("description")
+                .StartWith(() => { })
+                .WorkflowSetup.Description.Should().Be("description");
+        }
+
+
         public class WorkflowToolsTestContext
         {
         }

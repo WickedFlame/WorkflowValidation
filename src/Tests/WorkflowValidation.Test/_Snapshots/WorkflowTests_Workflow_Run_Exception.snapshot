@@ -1,0 +1,7 @@
+---data
+exception
+   at WorkflowValidation.Test.WorkflowTests.<>c.<Workflow_Run_Exception>b__11_2()
+   at WorkflowValidation.Step.<>c__DisplayClass1_0.<.ctor>b__0(WorkflowContext a)
+   at WorkflowValidation.Step.Run(WorkflowContext context)
+   at WorkflowValidation.Workflow.Run()
+   at WorkflowValidation.Test.WorkflowTests.Workflow_Run_Exception()

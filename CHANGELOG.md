@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
  
 ## vNext
+### Changed
+- WorkflowExceptions now contain all Steps as message
+- StackTrace in WorkflowExceptions is now at the root of the Run to minimize the output
+- Optimized the output of a WorkflowException
+
+### Added
+- Setups for workflows can be created in any flavour
+- Set description of workflow directly in the WorkflowSetup
+- WorkflowContext stores all log messages
+
+### Changed
+- Workflowdescription is now presented prominent in output
+
+## v1.1.0
 ### Added
 - Setup for workflows containing a description that gets output
   

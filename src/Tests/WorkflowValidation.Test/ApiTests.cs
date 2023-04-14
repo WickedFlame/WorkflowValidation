@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using static WorkflowValidation.Tools.VerificationTools;
 using static WorkflowValidation.Tools.StepTools;
 using static WorkflowValidation.Tools.WorkflowTools;
+using Polaroider;
 
 namespace WorkflowValidation.Test
 {
@@ -45,6 +46,26 @@ namespace WorkflowValidation.Test
         public void WorkflowValidation_Api_Message_NoContext()
         {
             Workflow.StartWith("Start", () => { })
+                .Then("Then 1", () => { })
+                .Then("Then 2", () => { })
+                .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_Setup_Description()
+        {
+            Workflow.SetupWorkflow(s => s.SetDescription("Description"))
+                .StartWith("Start", () => { })
+                .Then("Then 1", () => { })
+                .Then("Then 2", () => { })
+                .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_Setup_DescriptionOnly()
+        {
+            Workflow.SetupWorkflow("Description")
+                .StartWith("Start", () => { })
                 .Then("Then 1", () => { })
                 .Then("Then 2", () => { })
                 .Run();
@@ -341,10 +362,50 @@ namespace WorkflowValidation.Test
         public void WorkflowValidation_Api_WorkflowTools_Simple_FullSetup()
         {
             Workflow<WorkflowTestContext>(ctx =>
-                    StartWith("Start", () => { })
-                        .Then("Then", () => { })
+                    StartWith("Start", () =>
+                        {
+                            SetStep("First step in the start", () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+                        })
+                        .Then("Then", () =>
+                        {
+                            SetStep("First step in the Then step", () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+                        })
                 )
                 .Run();
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_WorkflowTools_Simple_FullSetup_PassContext()
+        {
+            Workflow<WorkflowTestContext>(ctx =>
+                    StartWith("Start", c1 =>
+                        {
+                            SetStep("First step in the start", c1, () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+
+                            Verify(v => v
+                                .SetName("Verify of first check")
+                                .SetContext(c1)
+                                .Assert(() => true)
+                            );
+                        })
+                        .Then("Then", c1 =>
+                        {
+                            SetStep("First step in the Then step", c1, () =>
+                            {
+                                Console.WriteLine("Some action");
+                            });
+                        })
+                )
+                .Run().Context.Logs.MatchSnapshot();
         }
 
         [Test]

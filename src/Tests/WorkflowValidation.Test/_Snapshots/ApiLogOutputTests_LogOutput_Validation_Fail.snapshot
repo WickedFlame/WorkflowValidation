@@ -1,0 +1,39 @@
+---metadata
+Name: logs
+---data
+----------------------------------------
+Workflow: This is a Workflow
+----------------------------------------
+-> Step: 1 Start
+-> Step: 2 Start Step
+-> Step: 3 substep of start step
+-> Step: 4 Sub of start step
+-> Step: 5 Verify after start step
+-> Verify: 6 Assert of verify after start step [Failed]
+---metadata
+Name: output
+---data
+----------------------------------------
+Workflow: This is a Workflow
+----------------------------------------
+-> Step: 1 Start
+-> Step: 2 Start Step
+-> Step: 3 substep of start step
+-> Step: 4 Sub of start step
+-> Step: 5 Verify after start step
+-> Verify: 6 Assert of verify after start step [Failed]
+---metadata
+---data
+The workflowstep Verify: 6 Assert of verify after start step [Failed]
+----------------------------------------
+Workflow: This is a Workflow
+----------------------------------------
+-> Step: 1 Start
+-> Step: 2 Start Step
+-> Step: 3 substep of start step
+-> Step: 4 Sub of start step
+-> Step: 5 Verify after start step
+-> Verify: 6 Assert of verify after start step [Failed]
+
+   at WorkflowValidation.Workflow.Run()
+   at WorkflowValidation.Test.ApiLogOutputTests.LogOutput_Validation_Fail()

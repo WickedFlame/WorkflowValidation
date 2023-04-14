@@ -31,7 +31,9 @@ namespace WorkflowValidation
         {
             if (!string.IsNullOrEmpty(Description))
             {
+                context.Log("----------------------------------------");
                 context.Log($"Workflow: {Description}");
+                context.Log("----------------------------------------");
             }
         }
     }
