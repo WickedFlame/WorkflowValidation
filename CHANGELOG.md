@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v1.2.1
 ### Fixed
-- API after Wait returned wron interface
+- API after Wait returned wrong interface
  
 ## v1.2.0
 ### Changed
