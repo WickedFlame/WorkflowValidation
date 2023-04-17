@@ -249,6 +249,32 @@ namespace WorkflowValidation.Test
             act.Should().Throw<WorkflowException>();
         }
 
+        [Test]
+        public void WorkflowValidation_Api_EachStepRun()
+        {
+            var cnt = 0;
+            Workflow.StartWith("One", () => cnt++)
+                .Then("Two", () => cnt++)
+                .Wait(1)
+                .Then("Three", () => cnt++)
+                .Run();
+
+            cnt.Should().Be(3);
+        }
+
+        [Test]
+        public void WorkflowValidation_Api_Tool_EachStepRun()
+        {
+            var cnt = 0;
+            StartWith("One", () => cnt++)
+                .Then("Two", () => cnt++)
+                .Wait(1)
+                .Then("Three", () => cnt++)
+                .Run();
+
+            cnt.Should().Be(3);
+        }
+
 
 
         [Test]

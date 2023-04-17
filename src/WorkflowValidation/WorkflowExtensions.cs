@@ -98,7 +98,7 @@ namespace WorkflowValidation
         /// <param name="workflow"></param>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static IWorkflow Wait(this IWorkflowStep workflow, int milliseconds)
+        public static IWorkflowStep Wait(this IWorkflowStep workflow, int milliseconds)
         {
             workflow.SetStep(new Step(() =>
                 {
