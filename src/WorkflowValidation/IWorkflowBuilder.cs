@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace WorkflowValidation
 {
@@ -12,7 +13,7 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        IWorkflowStep StartWith(Action step);
+        IWorkflowStep StartWith(Expression<Action> step);
 
         /// <summary>
         /// Start the workflow with the given step

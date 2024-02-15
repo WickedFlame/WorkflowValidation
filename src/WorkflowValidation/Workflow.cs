@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace WorkflowValidation
 {
@@ -109,7 +110,7 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflowStep StartWith(Action step)
+        public static IWorkflowStep StartWith(Expression<Action> step)
         {
             var builder = new WorkflowBuilder();
             return builder.StartWith(step);
@@ -132,7 +133,7 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflowStep StartWith(Action<WorkflowContext> step)
+        public static IWorkflowStep StartWith(Expression<Action<WorkflowContext>> step)
         {
             var builder = new WorkflowBuilder();
             return builder.StartWith(step);

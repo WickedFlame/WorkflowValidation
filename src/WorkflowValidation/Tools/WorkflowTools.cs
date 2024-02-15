@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace WorkflowValidation.Tools
 {
@@ -16,7 +17,7 @@ namespace WorkflowValidation.Tools
         public static IWorkflow Workflow<T>(Func<T, IWorkflow> workflow) where T : class, new()
         {
             var context = Activator.CreateInstance(typeof(T)) as T;
-            return workflow(context);
+            return workflow(context).Run();
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace WorkflowValidation.Tools
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public static IWorkflowStep StartWith(Action step)
+        public static IWorkflowStep StartWith(Expression<Action> step)
         {
             return WorkflowValidation.Workflow.StartWith(step);
         }

@@ -349,17 +349,14 @@ namespace WorkflowValidation.Test
         public void WorkflowValidation_Api_WorkflowTools_FullSetup()
         {
             StartWith(() =>
-                {
-                    SetStep(b => b
-                        .SetName("Start Step")
-                        .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
-                    );
-
-                    Verify(b => b
-                        .SetName("Test")
-                        .Assert(() => true)
-                    );
-                })
+                SetStep(b => b
+                    .SetName("Start Step")
+                    .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
+                )
+                .Verify(b => b
+                    .SetName("Test")
+                    .Assert(() => true)
+                ))
                 .Run();
         }
 
@@ -368,17 +365,15 @@ namespace WorkflowValidation.Test
         {
             Workflow<WorkflowTestContext>(ctx =>
                     StartWith(() =>
-                        {
                             SetStep(b => b
                                 .SetName("Start Step")
                                 .Step(() => System.Diagnostics.Debug.WriteLine("This is a step"))
-                            );
-
-                            Verify(b => b
+                            )
+                            .Verify(b => b
                                 .SetName("Test")
                                 .Assert(() => true)
-                            );
-                        })
+                            )
+                        )
                         .Then(() => { })
                 )
                 .Run();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace WorkflowValidation
 {
@@ -14,9 +15,16 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public IWorkflowStep StartWith(Action step)
+        public IWorkflowStep StartWith(Expression<Action> step)
         {
-            _workflow.SetStep(new Step(step));
+        
+           
+        //TODO: get data from expression
+
+
+
+
+            _workflow.SetStep(new Step(step.Compile()));
 
             return _workflow;
         }
@@ -41,9 +49,11 @@ namespace WorkflowValidation
         /// </summary>
         /// <param name="step"></param>
         /// <returns></returns>
-        public IWorkflowStep StartWith(Action<WorkflowContext> step)
+        public IWorkflowStep StartWith(Expression<Action<WorkflowContext>> step)
         {
-            _workflow.SetStep(new Step(step));
+            //TODO: get data from expression
+
+            _workflow.SetStep(new Step(step.Compile()));
 
             return _workflow;
         }
